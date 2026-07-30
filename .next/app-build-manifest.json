@@ -1,26 +1,5 @@
 {
   "pages": {
-    "/(portal)/admin/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(portal)/admin/page.js"
-    ],
-    "/(portal)/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(portal)/layout.js"
-    ],
-    "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
-    ],
-    "/(auth)/login/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(auth)/login/page.js"
-    ],
     "/(site)/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -31,25 +10,31 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(site)/layout.js"
     ],
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+    ],
     "/(portal)/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(portal)/dashboard/page.js"
     ],
-    "/(portal)/profile/page": [
+    "/(portal)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(portal)/profile/page.js"
+      "static/chunks/app/(portal)/layout.js"
     ],
-    "/(portal)/member-resources/page": [
+    "/(site)/about/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(portal)/member-resources/page.js"
+      "static/chunks/app/(site)/about/page.js"
     ],
-    "/(auth)/register/page": [
+    "/(site)/programs/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(auth)/register/page.js"
+      "static/chunks/app/(site)/programs/page.js"
     ]
   }
 }
