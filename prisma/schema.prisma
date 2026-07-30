@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  role          String    @default("MEMBER")
+  status        String    @default("ACTIVE")
+  phone         String?
+  address       String?
+  profileImage  String?
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  rsvps         RSVP[]
+  prayerRequests PrayerRequest[]
+  volunteerSignups VolunteerSignup[]
+  contactSubmissions ContactSubmission[]
+}
+
+
+
+model Event {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  description String
+  date        DateTime
+  time        String
+  location    String
+  image       String?
+  isUpcoming  Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  rsvps       RSVP[]
+}
+
+model RSVP {
+  id        String    @id @default(cuid())
+  userId    String
+  eventId   String
+  name      String
+  email     String
+  phone     String?
+  status    String     @default("CONFIRMED")
+  createdAt DateTime  @default(now())
+  
+  user      User      @relation(fields: [userId], references: [id])
+  event     Event     @relation(fields: [eventId], references: [id])
+}
+
+model BlogPost {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  excerpt     String
+  content     String
+  image       String?
+  author      String
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Testimonial {
+  id          String    @id @default(cuid())
+  name        String
+  role        String?
+  content     String
+  image       String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+}
+
+model Resource {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  fileUrl     String
+  fileType    String
+  size        String?
+  isMemberOnly Boolean  @default(true)
+  createdAt   DateTime  @default(now())
+}
+
+model PrayerRequest {
+  id          String    @id @default(cuid())
+  userId      String?
+  name        String
+  email       String
+  request     String
+  isAnonymous Boolean   @default(false)
+  status      String       @default("PENDING")
+  createdAt   DateTime  @default(now())
+  
+  user        User?     @relation(fields: [userId], references: [id])
+}
+
+model VolunteerSignup {
+  id          String    @id @default(cuid())
+  userId      String?
+  name        String
+  email       String
+  phone       String
+  interest    String
+  message     String?
+  status      String           @default("PENDING")
+  createdAt   DateTime  @default(now())
+  
+  user        User?     @relation(fields: [userId], references: [id])
+}
+
+model ContactSubmission {
+  id          String    @id @default(cuid())
+  userId      String?
+  name        String
+  email       String
+  subject     String
+  message     String
+  isRead      Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  
+  user        User?     @relation(fields: [userId], references: [id])
+}
+
+model FAQ {
+  id          String    @id @default(cuid())
+  question    String
+  answer      String
+  category    String?
+  order       Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+}

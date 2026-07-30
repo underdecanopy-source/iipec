@@ -1,0 +1,31 @@
+{
+  "site": {
+    "title": "IIPEC Potter's House Command",
+    "tagline": "Equipping Chaplains to Serve with Excellence and Compassion"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "programs": "Programs",
+    "events": "Events",
+    "gallery": "Gallery",
+    "leadership": "Leadership",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "support": "Support Us",
+    "donate": "Donate"
+  },
+  "home": {
+    "hero_title": "Equipping Chaplains to Serve with Excellence and Compassion",
+    "hero_subtitle": "Be part of a growing movement training and sending chaplains to meet real needs in real communities.",
+    "learn_more": "Learn More",
+    "support_us": "Support Us"
+  },
+  "footer": {
+    "quick_links": "Quick Links",
+    "resources": "Resources",
+    "connect": "Connect",
+    "copyright": "© 2026 IIPEC Potter's House Command. All rights reserved."
+  }
+}

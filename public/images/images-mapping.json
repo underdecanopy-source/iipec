@@ -1,0 +1,344 @@
+[
+  {
+    "filename": "mission-image.jpg",
+    "path": "/images/mission-image.jpg",
+    "section": "Home - Mission",
+    "caption": "IIPEC Potter's House Command team serving in the community",
+    "alt": "IIPEC Chaplains serving in community",
+    "recommended_size": "1200x800",
+    "notes": "Use as the mission section image on the homepage and About page highlight."
+  },
+  {
+    "filename": "event-conference.jpg",
+    "path": "/images/event-conference.jpg",
+    "section": "Events - Conference",
+    "caption": "IIPEC Potter's House Command at a training conference",
+    "alt": "Chaplaincy training conference",
+    "recommended_size": "1200x800",
+    "notes": "FeaturedEvents thumbnail or event detail hero."
+  },
+  {
+    "filename": "event-prison.jpg",
+    "path": "/images/event-prison.jpg",
+    "section": "Events - Prison Ministry",
+    "caption": "Chaplaincy outreach inside a correctional facility",
+    "alt": "Prison ministry outreach",
+    "recommended_size": "1200x800",
+    "notes": "Use for prison chaplaincy program and related blog posts."
+  },
+  {
+    "filename": "event-outreach.jpg",
+    "path": "/images/event-outreach.jpg",
+    "section": "Events - Community Outreach",
+    "caption": "Community outreach and evangelical ministry",
+    "alt": "Community outreach event",
+    "recommended_size": "1200x800",
+    "notes": "Use on programs and events lists for outreach stories."
+  },
+  {
+    "filename": "gallery-1.jpg",
+    "path": "/images/gallery-1.jpg",
+    "section": "Gallery",
+    "caption": "Training session highlights",
+    "alt": "Chaplain training highlights",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 1."
+  },
+  {
+    "filename": "gallery-2.jpg",
+    "path": "/images/gallery-2.jpg",
+    "section": "Gallery",
+    "caption": "Chaplains serving in the field",
+    "alt": "Chaplains serving in community",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 2."
+  },
+  {
+    "filename": "gallery-3.jpg",
+    "path": "/images/gallery-3.jpg",
+    "section": "Gallery",
+    "caption": "Group photo at an IIPEC event",
+    "alt": "IIPEC group photo",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 3."
+  },
+  {
+    "filename": "gallery-4.jpg",
+    "path": "/images/gallery-4.jpg",
+    "section": "Gallery",
+    "caption": "Field outreach activities",
+    "alt": "Field outreach activity",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 4."
+  },
+  {
+    "filename": "gallery-5.jpg",
+    "path": "/images/gallery-5.jpg",
+    "section": "Gallery",
+    "caption": "Community engagement moment",
+    "alt": "Community engagement",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 5."
+  },
+  {
+    "filename": "gallery-6.jpg",
+    "path": "/images/gallery-6.jpg",
+    "section": "Gallery",
+    "caption": "Event candid moments",
+    "alt": "Event candid",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 6."
+  },
+  {
+    "filename": "gallery-7.jpg",
+    "path": "/images/gallery-7.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 7",
+    "alt": "Gallery image 7",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 7."
+  },
+  {
+    "filename": "gallery-8.jpg",
+    "path": "/images/gallery-8.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 8",
+    "alt": "Gallery image 8",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 8."
+  },
+  {
+    "filename": "gallery-9.jpg",
+    "path": "/images/gallery-9.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 9",
+    "alt": "Gallery image 9",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 9."
+  },
+  {
+    "filename": "gallery-10.jpg",
+    "path": "/images/gallery-10.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 10",
+    "alt": "Gallery image 10",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 10."
+  },
+  {
+    "filename": "gallery-11.jpg",
+    "path": "/images/gallery-11.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 11",
+    "alt": "Gallery image 11",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 11."
+  },
+  {
+    "filename": "gallery-12.jpg",
+    "path": "/images/gallery-12.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 12",
+    "alt": "Gallery image 12",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 12."
+  },
+  {
+    "filename": "gallery-13.jpg",
+    "path": "/images/gallery-13.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 13",
+    "alt": "Gallery image 13",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 13."
+  },
+  {
+    "filename": "gallery-14.jpg",
+    "path": "/images/gallery-14.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 14",
+    "alt": "Gallery image 14",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 14."
+  },
+  {
+    "filename": "gallery-15.jpg",
+    "path": "/images/gallery-15.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 15",
+    "alt": "Gallery image 15",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 15."
+  },
+  {
+    "filename": "gallery-16.jpg",
+    "path": "/images/gallery-16.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 16",
+    "alt": "Gallery image 16",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 16."
+  },
+  {
+    "filename": "gallery-17.jpg",
+    "path": "/images/gallery-17.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 17",
+    "alt": "Gallery image 17",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 17."
+  },
+  {
+    "filename": "gallery-18.jpg",
+    "path": "/images/gallery-18.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 18",
+    "alt": "Gallery image 18",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 18."
+  },
+  {
+    "filename": "gallery-19.jpg",
+    "path": "/images/gallery-19.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 19",
+    "alt": "Gallery image 19",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 19."
+  },
+  {
+    "filename": "gallery-20.jpg",
+    "path": "/images/gallery-20.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 20",
+    "alt": "Gallery image 20",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 20."
+  },
+  {
+    "filename": "gallery-21.jpg",
+    "path": "/images/gallery-21.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 21",
+    "alt": "Gallery image 21",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 21."
+  },
+  {
+    "filename": "gallery-22.jpg",
+    "path": "/images/gallery-22.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 22",
+    "alt": "Gallery image 22",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 22."
+  },
+  {
+    "filename": "gallery-23.jpg",
+    "path": "/images/gallery-23.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 23",
+    "alt": "Gallery image 23",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 23."
+  },
+  {
+    "filename": "gallery-24.jpg",
+    "path": "/images/gallery-24.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 24",
+    "alt": "Gallery image 24",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 24."
+  },
+  {
+    "filename": "gallery-25.jpg",
+    "path": "/images/gallery-25.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 25",
+    "alt": "Gallery image 25",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 25."
+  },
+  {
+    "filename": "gallery-26.jpg",
+    "path": "/images/gallery-26.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 26",
+    "alt": "Gallery image 26",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 26."
+  },
+  {
+    "filename": "gallery-27.jpg",
+    "path": "/images/gallery-27.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 27",
+    "alt": "Gallery image 27",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 27."
+  },
+  {
+    "filename": "gallery-28.jpg",
+    "path": "/images/gallery-28.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 28",
+    "alt": "Gallery image 28",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 28."
+  },
+  {
+    "filename": "gallery-29.jpg",
+    "path": "/images/gallery-29.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 29",
+    "alt": "Gallery image 29",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 29."
+  },
+  {
+    "filename": "gallery-30.jpg",
+    "path": "/images/gallery-30.jpg",
+    "section": "Gallery",
+    "caption": "Gallery image 30",
+    "alt": "Gallery image 30",
+    "recommended_size": "800x600",
+    "notes": "Gallery image 30."
+  },
+  {
+    "filename": "blog-prison.jpg",
+    "path": "/images/blog-prison.jpg",
+    "section": "Blog - Prison Ministry",
+    "caption": "Stories from prison ministry",
+    "alt": "Prison ministry blog image",
+    "recommended_size": "1200x800",
+    "notes": "Use as featured image for prison-related blog posts."
+  },
+  {
+    "filename": "blog-training.jpg",
+    "path": "/images/blog-training.jpg",
+    "section": "Blog - Training",
+    "caption": "Chaplain training and workshops",
+    "alt": "Training workshop blog image",
+    "recommended_size": "1200x800",
+    "notes": "Use for training-related articles."
+  },
+  {
+    "filename": "blog-community.jpg",
+    "path": "/images/blog-community.jpg",
+    "section": "Blog - Community",
+    "caption": "Community impact stories",
+    "alt": "Community impact blog image",
+    "recommended_size": "1200x800",
+    "notes": "Use for community and outreach posts."
+  },
+  {
+    "filename": "og-image.jpg",
+    "path": "/images/og-image.jpg",
+    "section": "Site-wide / Open Graph",
+    "caption": "IIPEC Potter's House Command - Equipping Chaplains Worldwide",
+    "alt": "IIPEC Potter's House Command logo and mission",
+    "recommended_size": "1200x630",
+    "notes": "Use for social sharing (meta open graph image)."
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "site": {
+    "title": "IIPEC Potter's House Command",
+    "tagline": "Gbigbọn Awọn Chaplain Lati Sin Pẹlu Ilera Ati Aanu"
+  },
+  "nav": {
+    "home": "Ile",
+    "about": "Nipa Wa",
+    "programs": "Awọn Eto",
+    "events": "Awọn Iṣẹlẹ",
+    "gallery": "Awọn Aworan",
+    "leadership": "Awọn Olori",
+    "blog": "Akọọlẹ",
+    "faq": "Awọn Ibeere",
+    "contact": "Kan si Wa",
+    "support": "Atilẹyin Wa",
+    "donate": "Ṣe Itọrẹ"
+  },
+  "home": {
+    "hero_title": "Gbigbọn Awọn Chaplain Lati Sin Pẹlu Ilera Ati Aanu",
+    "hero_subtitle": "Jẹ apakan ti agbeka ti n dagba ti n kọ ati fifiranṣẹ awọn chaplain lati pade awọn aini gidi ni awọn agbegbe gidi.",
+    "learn_more": "Kọ Ẹkọ Siwaju",
+    "support_us": "Atilẹyin Wa"
+  },
+  "footer": {
+    "quick_links": "Awọn Ọna Asopọ",
+    "resources": "Awọn Ohun Elo",
+    "connect": "Ṣe Asopọ",
+    "copyright": "© 2026 IIPEC Potter's House Command. Gbogbo ẹtọ wa ni ipamọ."
+  }
+}

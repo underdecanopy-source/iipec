@@ -1,0 +1,11 @@
+{
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(auth)/register/page": "app/(auth)/register/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/admin/all-members/route": "app/api/admin/all-members/route.js",
+  "/api/resources/route": "app/api/resources/route.js",
+  "/(portal)/admin/page": "app/(portal)/admin/page.js",
+  "/(site)/page": "app/(site)/page.js",
+  "/(portal)/dashboard/page": "app/(portal)/dashboard/page.js",
+  "/(portal)/member-resources/page": "app/(portal)/member-resources/page.js"
+}

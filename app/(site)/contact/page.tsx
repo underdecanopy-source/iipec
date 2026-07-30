@@ -1,0 +1,183 @@
+'use client'
+
+import { useState } from 'react'
+
+export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const handleChange =
+    (field: keyof typeof formData) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormData({ ...formData, [field]: e.target.value })
+    }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setErrorMessage('')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json().catch(() => null)
+
+      if (!response.ok) {
+        throw new Error(result?.error || 'Failed to send message.')
+      }
+
+      setSubmitted(true)
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      })
+    } catch (error) {
+      console.error(error)
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : 'Failed to send message. Please try again.'
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  return (
+    <div className="section-padding overflow-x-hidden">
+      <div className="container-custom">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-4">Contact Us</h1>
+        <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mb-10 md:mb-12">
+          Get in touch with us. We would love to hear from you.
+        </p>
+
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.85fr)] lg:gap-12">
+          <div className="min-w-0">
+            <h2 className="text-2xl font-bold text-primary mb-4">Send us a Message</h2>
+            {submitted ? (
+              <div className="bg-green-50 text-green-700 p-5 sm:p-6 rounded-lg">
+                <h3 className="font-bold text-lg">Message Sent!</h3>
+                <p>Thank you for contacting us. We will get back to you shortly.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="w-full max-w-full space-y-4 rounded-lg bg-white">
+                {errorMessage ? (
+                  <div className="rounded-lg bg-red-50 p-4 text-sm text-red-700">
+                    {errorMessage}
+                  </div>
+                ) : null}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <input
+                    type="text"
+                    required
+                    className="block w-full min-w-0 max-w-full rounded-lg border border-gray-300 px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:ring-primary"
+                    value={formData.name}
+                    onChange={handleChange('name')}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <input
+                    type="email"
+                    required
+                    className="block w-full min-w-0 max-w-full rounded-lg border border-gray-300 px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:ring-primary"
+                    value={formData.email}
+                    onChange={handleChange('email')}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                  <input
+                    type="text"
+                    required
+                    className="block w-full min-w-0 max-w-full rounded-lg border border-gray-300 px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:ring-primary"
+                    value={formData.subject}
+                    onChange={handleChange('subject')}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                  <textarea
+                    rows={5}
+                    required
+                    className="block w-full min-w-0 max-w-full resize-y rounded-lg border border-gray-300 px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:ring-primary"
+                    value={formData.message}
+                    onChange={handleChange('message')}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn-primary block w-full max-w-full disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </button>
+              </form>
+            )}
+          </div>
+
+          <div className="min-w-0">
+            <h2 className="text-2xl font-bold text-primary mb-4">Get in Touch</h2>
+            <div className="space-y-4 text-gray-600">
+              <div className="flex items-start gap-3">
+                <span className="w-10 shrink-0 text-xs font-semibold uppercase tracking-wide text-accent">Addr</span>
+                <div className="min-w-0">
+                  <p className="font-medium">Address</p>
+                  <p className="break-words">Bethpage Alata Village, Adebayo, Off Ijebu Express Way, Ibadan, Oyo State.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="w-10 shrink-0 text-xs font-semibold uppercase tracking-wide text-accent">Mail</span>
+                <div className="min-w-0">
+                  <p className="font-medium">Email</p>
+                  <p className="break-words">iipecpottershousechaplain@gmail.com</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="w-10 shrink-0 text-xs font-semibold uppercase tracking-wide text-accent">Tel</span>
+                <div className="min-w-0">
+                  <p className="font-medium">Phone</p>
+                  <p>+234 803 404 5856</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <h3 className="font-bold text-primary mb-3">Follow Us</h3>
+              <div className="flex flex-wrap gap-x-4 gap-y-2">
+                <a href="https://web.facebook.com/profile.php?id=61580019583250" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-accent transition-colors">
+                  Facebook
+                </a>
+                <a href="https://x.com/iipec_phcommand" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-accent transition-colors">
+                  Twitter
+                </a>
+                <a href="https://www.instagram.com/iipecpottershousecommand?igsh=MWp2MDdscjJwdHcxaQ%3D%3D" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-accent transition-colors">
+                  Instagram
+                </a>
+                <a href="https://www.youtube.com/@iipec-pottershousecommand" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-accent transition-colors">
+                  YouTube
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
