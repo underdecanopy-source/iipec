@@ -3,6 +3,18 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
+const resourceListSelect = {
+  id: true,
+  title: true,
+  description: true,
+  fileUrl: true,
+  fileName: true,
+  fileType: true,
+  size: true,
+  isMemberOnly: true,
+  createdAt: true,
+}
+
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions)
   if (!session?.user?.email) {
@@ -12,6 +24,7 @@ export async function GET(request: Request) {
   const resources = await prisma.resource.findMany({
     where: { isMemberOnly: true },
     orderBy: { createdAt: 'desc' },
+    select: resourceListSelect,
   })
   return NextResponse.json(resources)
 }
@@ -24,7 +37,10 @@ export async function POST(request: Request) {
 
   try {
     const data = await request.json()
-    const resource = await prisma.resource.create({ data })
+    const resource = await prisma.resource.create({
+      data,
+      select: resourceListSelect,
+    })
     return NextResponse.json(resource, { status: 201 })
   } catch (err) {
     console.error('Create resource error:', err)

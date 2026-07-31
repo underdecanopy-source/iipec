@@ -1,24 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import fs from 'fs/promises'
-import path from 'path'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
 export const runtime = 'nodejs'
-
-function localResourcePath(fileUrl: string) {
-  const resourcesDir = path.join(process.cwd(), 'public', 'resources')
-  const filename = path.basename(fileUrl)
-  const filePath = path.join(resourcesDir, filename)
-  const relativePath = path.relative(resourcesDir, filePath)
-
-  if (!fileUrl.startsWith('/resources/') || relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
-    return null
-  }
-
-  return filePath
-}
 
 export async function DELETE(
   _request: Request,
@@ -33,7 +18,7 @@ export async function DELETE(
   try {
     const resource = await prisma.resource.findUnique({
       where: { id: params.id },
-      select: { fileUrl: true },
+      select: { id: true },
     })
 
     if (!resource) {
@@ -41,15 +26,6 @@ export async function DELETE(
     }
 
     await prisma.resource.delete({ where: { id: params.id } })
-
-    const filePath = localResourcePath(resource.fileUrl)
-    if (filePath) {
-      await fs.unlink(filePath).catch((error: NodeJS.ErrnoException) => {
-        if (error.code !== 'ENOENT') {
-          throw error
-        }
-      })
-    }
 
     return NextResponse.json({ message: 'Resource deleted successfully.' })
   } catch (error) {

@@ -83,14 +83,16 @@ model Testimonial {
 }
 
 model Resource {
-  id          String    @id @default(cuid())
-  title       String
-  description String
-  fileUrl     String
-  fileType    String
-  size        String?
-  isMemberOnly Boolean  @default(true)
-  createdAt   DateTime  @default(now())
+  id           String    @id @default(cuid())
+  title        String
+  description  String
+  fileUrl      String
+  fileName     String?
+  fileType     String
+  fileData     Bytes?
+  size         String?
+  isMemberOnly Boolean   @default(true)
+  createdAt    DateTime  @default(now())
 }
 
 model PrayerRequest {
@@ -142,3 +144,4 @@ model FAQ {
   isActive    Boolean   @default(true)
   createdAt   DateTime  @default(now())
 }
+

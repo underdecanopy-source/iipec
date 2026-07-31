@@ -1,11 +1,16 @@
+import { randomUUID } from 'crypto'
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import fs from 'fs/promises'
-import path from 'path'
 
 export const runtime = 'nodejs'
+
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024
+
+function sanitizeFileName(fileName: string) {
+  return fileName.replace(/[^a-zA-Z0-9._-]/g, '_')
+}
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions)
@@ -15,36 +20,44 @@ export async function POST(request: Request) {
 
   try {
     const formData = await request.formData()
-    const file = formData.get('file') as any
+    const file = formData.get('file') as File | null
     if (!file || typeof file.arrayBuffer !== 'function') {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 })
     }
 
-    const title = (formData.get('title') as string) || file.name || 'resource'
-    const description = (formData.get('description') as string) || ''
+    if (file.size > MAX_UPLOAD_BYTES) {
+      return NextResponse.json({ error: 'File is too large. Upload files up to 10 MB.' }, { status: 413 })
+    }
 
+    const fileName = sanitizeFileName(file.name || 'resource')
+    const title = ((formData.get('title') as string) || file.name || 'resource').trim()
+    const description = ((formData.get('description') as string) || '').trim()
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
-
-    const resourcesDir = path.join(process.cwd(), 'public', 'resources')
-    await fs.mkdir(resourcesDir, { recursive: true })
-
-    const safeName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`
-    const filePath = path.join(resourcesDir, safeName)
-    await fs.writeFile(filePath, buffer)
-
-    const fileUrl = `/resources/${safeName}`
-    const sizeMb = (buffer.byteLength / (1024 * 1024)).toFixed(2) + ' MB'
-    const fileType = file.type || (safeName.split('.').pop() || '').toUpperCase()
+    const resourceId = randomUUID()
 
     const resource = await prisma.resource.create({
       data: {
+        id: resourceId,
         title,
         description,
-        fileUrl,
-        fileType,
-        size: sizeMb,
+        fileUrl: `/api/resources/${resourceId}/download`,
+        fileName,
+        fileType: file.type || 'application/octet-stream',
+        fileData: buffer,
+        size: (buffer.byteLength / (1024 * 1024)).toFixed(2) + ' MB',
         isMemberOnly: true,
+      },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        fileUrl: true,
+        fileName: true,
+        fileType: true,
+        size: true,
+        isMemberOnly: true,
+        createdAt: true,
       },
     })
 

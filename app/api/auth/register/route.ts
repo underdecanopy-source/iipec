@@ -6,8 +6,9 @@ import { prisma } from '@/lib/prisma'
 const registerSchema = z.object({
   name: z.string().trim().min(2).max(100),
   email: z.string().trim().toLowerCase().email().max(254),
+  phone: z.string().trim().min(5).max(30).optional(),
   password: z.string().min(8).max(128),
-  adminCode: z.string().optional(),
+  adminCode: z.string().trim().optional(),
 })
 
 export async function POST(request: Request) {
@@ -16,12 +17,12 @@ export async function POST(request: Request) {
 
     if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Please provide a valid name, email, and password of at least 8 characters' },
+        { error: 'Please provide a valid name, email, phone number, and password of at least 8 characters' },
         { status: 400 }
       )
     }
 
-    const { name, email, password, adminCode } = parsed.data
+    const { name, email, phone, password, adminCode } = parsed.data
 
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -34,8 +35,8 @@ export async function POST(request: Request) {
       )
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10)
-    const role = adminCode && adminCode === process.env.ADMIN_REGISTRATION_CODE ? 'ADMIN' : 'MEMBER'
+    const configuredAdminCode = process.env.ADMIN_REGISTRATION_CODE?.trim()
+    const role = adminCode && configuredAdminCode && adminCode === configuredAdminCode ? 'ADMIN' : 'MEMBER'
 
     if (adminCode && role !== 'ADMIN') {
       return NextResponse.json(
@@ -44,10 +45,12 @@ export async function POST(request: Request) {
       )
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10)
     const user = await prisma.user.create({
       data: {
         name,
         email,
+        phone,
         password: hashedPassword,
         role,
       },
