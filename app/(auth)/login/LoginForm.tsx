@@ -81,6 +81,11 @@ export default function LoginForm() {
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-primary">Welcome Back</h1>
           <p className="text-gray-600 mt-2">Sign in to your IIPEC account</p>
+          <p className="mt-3">
+            <Link href="/" className="text-sm text-accent hover:underline">
+              Back to homepage
+            </Link>
+          </p>
         </div>
 
         {isRegistered && (
