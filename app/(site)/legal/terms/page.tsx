@@ -12,7 +12,7 @@ export default function TermsPage() {
           <h3>User Accounts</h3>
           <p>You are responsible for maintaining the confidentiality of your account credentials.</p>
           <h3>Contact</h3>
-          <p>For questions about these terms, contact us at iipecpottershousechaplain@gmail.com.</p>
+          <p>For questions about these terms, contact us at info@iipecphc.org.</p>
         </div>
       </div>
     </div>

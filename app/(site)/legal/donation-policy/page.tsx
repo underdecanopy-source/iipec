@@ -14,7 +14,7 @@ export default function DonationPolicyPage() {
           <h3>Refund Policy</h3>
           <p>Donations are generally non-refundable. Please contact us if you have concerns.</p>
           <h3>Contact</h3>
-          <p>For donation-related questions, contact us at iipecpottershousechaplain@gmail.com.</p>
+          <p>For donation-related questions, contact us at info@iipecphc.org.</p>
         </div>
       </div>
     </div>

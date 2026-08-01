@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     })
 
     const transporter = getTransporter()
-    const contactEmail = process.env.CONTACT_EMAIL?.trim() || 'iipecpottershousechaplain@gmail.com'
+    const contactEmail = process.env.CONTACT_EMAIL?.trim() || 'info@iipecphc.org'
     const mailFrom = process.env.EMAIL_FROM?.trim() || process.env.SMTP_USER?.trim() || `no-reply@${process.env.NEXTAUTH_URL?.replace(/^https?:\/\//, '')}`
 
     if (transporter) {

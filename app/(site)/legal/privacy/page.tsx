@@ -12,7 +12,7 @@ export default function PrivacyPage() {
           <h3>Data Security</h3>
           <p>We implement appropriate security measures to protect your personal information.</p>
           <h3>Contact Us</h3>
-          <p>If you have questions about this policy, please contact us at iipecpottershousechaplain@gmail.com.</p>
+          <p>If you have questions about this policy, please contact us at info@iipecphc.org.</p>
         </div>
       </div>
     </div>

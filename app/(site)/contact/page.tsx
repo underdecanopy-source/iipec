@@ -146,7 +146,7 @@ export default function ContactPage() {
                 <span className="w-10 shrink-0 text-xs font-semibold uppercase tracking-wide text-accent">Mail</span>
                 <div className="min-w-0">
                   <p className="font-medium">Email</p>
-                  <p className="break-words">iipecpottershousechaplain@gmail.com</p>
+                  <p className="break-words">info@iipecphc.org</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">

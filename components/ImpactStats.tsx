@@ -20,9 +20,9 @@ export default function ImpactStats() {
               Since 1989, we have been committed to service and excellence in chaplaincy.
             </p>
           </div>
-          <dl className="grid grid-cols-1 gap-y-16 text-center sm:grid-cols-2 lg:grid-cols-4">
+          <dl className="grid grid-cols-1 gap-y-6 text-center sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat) => (
-              <div key={stat.id} className="flex flex-col gap-y-4">
+              <div key={stat.id} className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm flex flex-col gap-y-4">
                 <dt className="text-base leading-7 text-gray-600 dark:text-gray-400">{stat.name}</dt>
                 <dd className="order-first text-5xl font-semibold tracking-tight text-primary">{stat.value}</dd>
               </div>
