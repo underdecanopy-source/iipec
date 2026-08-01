@@ -51,6 +51,12 @@ export default async function AdminPage() {
         <div className="bg-white rounded-xl p-6 shadow-sm">
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Unread Messages</h2>
           <p className="text-3xl font-bold text-primary mt-2">{unreadMessages}</p>
+          <Link
+            href="/admin/messages"
+            className="mt-4 inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-dark transition-colors"
+          >
+            View Messages
+          </Link>
         </div>
       </div>
 

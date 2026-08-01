@@ -64,6 +64,7 @@ export async function POST(request: Request) {
 
     if (transporter) {
       try {
+        await transporter.verify()
         await transporter.sendMail({
           from: mailFrom,
           to: contactEmail,
@@ -81,7 +82,13 @@ export async function POST(request: Request) {
         })
       } catch (mailError) {
         console.error('[CONTACT_EMAIL_ERROR]', mailError)
+        return NextResponse.json(
+          { error: 'Unable to deliver your message at this time. Please try again later.' },
+          { status: 500 }
+        )
       }
+    } else {
+      console.warn('[CONTACT_EMAIL_WARNING] SMTP is not configured; contact form submissions are being saved without email delivery.')
     }
 
     return NextResponse.json(

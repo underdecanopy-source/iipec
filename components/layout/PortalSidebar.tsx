@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
+import { useState } from 'react'
 
 const icons = {
   dashboard: (
@@ -46,6 +47,7 @@ const icons = {
 }
 
 export function PortalSidebar() {
+  const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const { data: session } = useSession()
   const isAdmin = session?.user?.role === 'ADMIN'
@@ -57,39 +59,65 @@ export function PortalSidebar() {
     ...(isAdmin
       ? [
           { href: '/admin', label: 'Admin', icon: icons.admin },
+          { href: '/admin/messages', label: 'Unread Messages', icon: icons.memberManagement },
           { href: '/admin/member-management', label: 'Member Management', icon: icons.memberManagement },
         ]
       : []),
   ]
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-white shadow-lg hidden md:block">
-      <div className="p-6">
-        <h2 className="text-xl font-bold text-primary">Member Portal</h2>
-      </div>
-      <nav className="px-4">
-        {links.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
-              pathname === link.href
-                ? 'bg-primary text-white'
-                : 'text-gray-600 hover:bg-secondary hover:text-primary'
-            }`}
+    <>
+      <div className="fixed left-0 top-0 right-0 z-40 bg-white border-b border-gray-200 md:hidden">
+        <div className="flex items-center justify-between px-4 py-3">
+          <div>
+            <h2 className="text-lg font-bold text-primary">Member Portal</h2>
+          </div>
+          <button
+            onClick={() => setIsOpen((current) => !current)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-700 hover:bg-gray-100"
+            aria-label="Open navigation"
           >
-            <span className="w-10 flex items-center justify-center text-gray-500">{link.icon}</span>
-            <span>{link.label}</span>
-          </Link>
-        ))}
-        <button
-          onClick={() => signOut()}
-          className="flex items-center gap-3 px-4 py-3 rounded-lg w-full text-left text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors mt-4"
-        >
-          <span className="w-10 flex items-center justify-center text-gray-500">{icons.logout}</span>
-          Logout
-        </button>
-      </nav>
-    </aside>
+            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 md:block ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+        <div className="p-6 pt-20 md:pt-6">
+          <h2 className="text-xl font-bold text-primary">Member Portal</h2>
+        </div>
+        <nav className="px-4 pb-6">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setIsOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                pathname === link.href
+                  ? 'bg-primary text-white'
+                  : 'text-gray-600 hover:bg-secondary hover:text-primary'
+              }`}
+            >
+              <span className="w-10 flex items-center justify-center text-gray-500">{link.icon}</span>
+              <span>{link.label}</span>
+            </Link>
+          ))}
+          <button
+            onClick={() => {
+              setIsOpen(false)
+              signOut()
+            }}
+            className="flex items-center gap-3 px-4 py-3 rounded-lg w-full text-left text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors mt-4"
+          >
+            <span className="w-10 flex items-center justify-center text-gray-500">{icons.logout}</span>
+            Logout
+          </button>
+        </nav>
+      </aside>
+
+      {isOpen && <div className="fixed inset-0 z-40 bg-black/30 md:hidden" onClick={() => setIsOpen(false)} />}
+    </>
   )
 }
