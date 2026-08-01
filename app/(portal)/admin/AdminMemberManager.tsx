@@ -24,7 +24,7 @@ function downloadCsv(members: AdminMember[]) {
   const rows = members.map((member) => [
     member.name,
     member.email,
-    member.phone || '',
+    member.phone || '—',
     member.role,
     statusLabel(member.status),
     member.lastLoginAt ? new Date(member.lastLoginAt).toLocaleDateString() : 'Never',
@@ -62,7 +62,7 @@ function openPrintableMembers(members: AdminMember[]) {
     <tr>
       <td>${escapeHtml(member.name)}</td>
       <td>${escapeHtml(member.email)}</td>
-      <td>${escapeHtml(member.phone || '')}</td>
+      <td>${escapeHtml(member.phone || '—')}</td>
       <td>${escapeHtml(member.role)}</td>
       <td>${escapeHtml(statusLabel(member.status))}</td>
       <td>${member.lastLoginAt ? escapeHtml(new Date(member.lastLoginAt).toLocaleDateString()) : 'Never'}</td>
@@ -314,7 +314,7 @@ export function AdminMemberManager() {
                 <tr key={member.id} className="border-b border-gray-100">
                   <td className="py-3 pr-4 font-medium text-primary">{member.name}</td>
                   <td className="py-3 pr-4 text-gray-600">{member.email}</td>
-                  <td className="py-3 pr-4 text-gray-600">{member.phone}</td>
+                  <td className="py-3 pr-4 text-gray-600">{member.phone || '—'}</td>
                   <td className="py-3 pr-4 text-gray-600">{member.role}</td>
                   <td className="py-3 pr-4">
                     <span className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-primary">
@@ -359,3 +359,4 @@ export function AdminMemberManager() {
     </section>
   )
 }
+

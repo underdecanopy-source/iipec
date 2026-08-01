@@ -1,8 +1,8 @@
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { AdminMemberManager } from './AdminMemberManager'
 import { AdminResourceManager } from './AdminResourceManager'
 
 export default async function AdminPage() {
@@ -55,7 +55,18 @@ export default async function AdminPage() {
       </div>
 
       <div className="space-y-6">
-        <AdminMemberManager />
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-dashed border-gray-200">
+          <h2 className="text-xl font-semibold text-primary">Member Management</h2>
+          <p className="text-gray-600 mt-2">
+            Member management is now available on its own dedicated page to keep the Admin Area cleaner.
+          </p>
+          <Link
+            href="/admin/member-management"
+            className="inline-flex mt-4 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-primary-dark transition-colors"
+          >
+            Open Member Management
+          </Link>
+        </div>
         <AdminResourceManager />
       </div>
     </div>

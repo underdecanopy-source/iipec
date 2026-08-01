@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { z } from 'zod'
+import nodemailer from 'nodemailer'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
@@ -10,6 +11,24 @@ const contactSchema = z.object({
   subject: z.string().trim().min(2).max(150),
   message: z.string().trim().min(10).max(5000),
 })
+
+const getTransporter = () => {
+  const host = process.env.SMTP_HOST?.trim()
+  const port = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined
+  const user = process.env.SMTP_USER?.trim()
+  const pass = process.env.SMTP_PASSWORD?.trim()
+
+  if (!host || !port || !user || !pass) {
+    return null
+  }
+
+  return nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: { user, pass },
+  })
+}
 
 export async function POST(request: Request) {
   try {
@@ -38,6 +57,32 @@ export async function POST(request: Request) {
       },
       select: { id: true },
     })
+
+    const transporter = getTransporter()
+    const contactEmail = process.env.CONTACT_EMAIL?.trim() || 'iipecpottershousechaplain@gmail.com'
+    const mailFrom = process.env.EMAIL_FROM?.trim() || process.env.SMTP_USER?.trim() || `no-reply@${process.env.NEXTAUTH_URL?.replace(/^https?:\/\//, '')}`
+
+    if (transporter) {
+      try {
+        await transporter.sendMail({
+          from: mailFrom,
+          to: contactEmail,
+          subject: `IIPEC Contact Form: ${parsed.data.subject}`,
+          text: `You have received a new message from the IIPEC contact form.\n\nName: ${parsed.data.name}\nEmail: ${parsed.data.email}\nSubject: ${parsed.data.subject}\n\nMessage:\n${parsed.data.message}`,
+          html: `
+            <p>You have received a new message from the IIPEC contact form.</p>
+            <p><strong>Name:</strong> ${parsed.data.name}</p>
+            <p><strong>Email:</strong> ${parsed.data.email}</p>
+            <p><strong>Subject:</strong> ${parsed.data.subject}</p>
+            <p><strong>Message:</strong></p>
+            <p>${parsed.data.message.replace(/\n/g, '<br/>')}</p>
+          `,
+          replyTo: parsed.data.email,
+        })
+      } catch (mailError) {
+        console.error('[CONTACT_EMAIL_ERROR]', mailError)
+      }
+    }
 
     return NextResponse.json(
       { message: 'Message received successfully.', id: submission.id },

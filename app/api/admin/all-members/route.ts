@@ -15,6 +15,7 @@ export async function GET() {
       id: true,
       name: true,
       email: true,
+      phone: true,
       role: true,
       status: true,
       lastLoginAt: true,
@@ -24,3 +25,4 @@ export async function GET() {
 
   return NextResponse.json(members)
 }
+

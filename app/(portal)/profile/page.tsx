@@ -1,16 +1,27 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 
 export default function ProfilePage() {
   const { data: session, update } = useSession()
   const [formData, setFormData] = useState({
-    name: session?.user?.name || '',
-    email: session?.user?.email || '',
-    phone: session?.user?.phone || '',
-    address: session?.user?.address || '',
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
   })
+
+  useEffect(() => {
+    if (session?.user) {
+      setFormData({
+        name: session.user.name || '',
+        email: session.user.email || '',
+        phone: session.user.phone || '',
+        address: session.user.address || '',
+      })
+    }
+  }, [session])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState('')
 
