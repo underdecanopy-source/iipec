@@ -31,6 +31,13 @@ const icons = {
       <path d="M12 7v4" />
     </svg>
   ),
+  audit: (
+    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
+      <path d="M14 7l-4 4 4 4" />
+    </svg>
+  ),
   memberManagement: (
     <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
       <path d="M4 6h16M4 12h16M4 18h16" />
@@ -60,6 +67,7 @@ export function PortalSidebar() {
       ? [
           { href: '/admin', label: 'Admin', icon: icons.admin },
           { href: '/admin/messages', label: 'Unread Messages', icon: icons.memberManagement },
+          { href: '/admin/audit', label: 'Audit Logs', icon: icons.audit },
           { href: '/admin/member-management', label: 'Member Management', icon: icons.memberManagement },
         ]
       : []),

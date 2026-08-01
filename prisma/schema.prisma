@@ -21,10 +21,12 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   
-  rsvps         RSVP[]
-  prayerRequests PrayerRequest[]
-  volunteerSignups VolunteerSignup[]
+  rsvps             RSVP[]
+  prayerRequests    PrayerRequest[]
+  volunteerSignups  VolunteerSignup[]
   contactSubmissions ContactSubmission[]
+  contactReplies    ContactReply[]
+  auditLogs         AuditLog[]
 }
 
 
@@ -129,9 +131,31 @@ model ContactSubmission {
   email       String
   subject     String
   message     String
-  isRead      Boolean   @default(false)
+  status      String    @default("UNREAD")
   createdAt   DateTime  @default(now())
-  
+
+  user        User?           @relation(fields: [userId], references: [id])
+  replies     ContactReply[]
+}
+
+model ContactReply {
+  id              String    @id @default(cuid())
+  contactId       String
+  adminId         String
+  content         String
+  createdAt       DateTime  @default(now())
+
+  contactSubmission ContactSubmission @relation(fields: [contactId], references: [id])
+  admin             User              @relation(fields: [adminId], references: [id])
+}
+
+model AuditLog {
+  id          String    @id @default(cuid())
+  userId      String?
+  action      String
+  details     String?
+  createdAt   DateTime  @default(now())
+
   user        User?     @relation(fields: [userId], references: [id])
 }
 

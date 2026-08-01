@@ -54,6 +54,7 @@ export async function POST(request: Request) {
       data: {
         ...parsed.data,
         userId: user?.id,
+        status: 'UNREAD',
       },
       select: { id: true },
     })

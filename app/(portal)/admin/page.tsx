@@ -25,11 +25,11 @@ export default async function AdminPage() {
       },
     }),
     prisma.resource.count(),
-    prisma.contactSubmission.count({ where: { isRead: false } }),
+    prisma.contactSubmission.count({ where: { status: 'UNREAD' } }),
   ])
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-10">
       <h1 className="text-3xl font-bold text-primary mb-2">Admin Area</h1>
       <p className="text-gray-600 mb-8">
         Manage IIPEC member resources and review portal activity.
@@ -71,6 +71,18 @@ export default async function AdminPage() {
             className="inline-flex mt-4 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-primary-dark transition-colors"
           >
             Open Member Management
+          </Link>
+        </div>
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-dashed border-gray-200">
+          <h2 className="text-xl font-semibold text-primary">Audit Logs</h2>
+          <p className="text-gray-600 mt-2">
+            Track important admin actions like message status changes and replies.
+          </p>
+          <Link
+            href="/admin/audit"
+            className="inline-flex mt-4 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-primary-dark transition-colors"
+          >
+            View Audit Logs
           </Link>
         </div>
         <AdminResourceManager />

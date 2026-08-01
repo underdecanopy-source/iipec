@@ -17,8 +17,22 @@ export async function GET() {
       email: true,
       subject: true,
       message: true,
-      isRead: true,
+      status: true,
       createdAt: true,
+      replies: {
+        orderBy: { createdAt: 'asc' },
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          admin: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
+        },
+      },
     },
   })
 
