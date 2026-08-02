@@ -68,6 +68,7 @@ export function PortalSidebar() {
           { href: '/admin', label: 'Admin', icon: icons.admin },
           { href: '/admin/messages', label: 'Unread Messages', icon: icons.memberManagement },
           { href: '/admin/audit', label: 'Audit Logs', icon: icons.audit },
+          { href: '/admin/reset-registration-code', label: 'Reset Admin Code', icon: icons.admin },
           { href: '/admin/member-management', label: 'Member Management', icon: icons.memberManagement },
         ]
       : []),

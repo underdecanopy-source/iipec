@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
+import { getAdminRegistrationCode } from '@/lib/adminRegistration'
 
 const registerSchema = z.object({
   name: z.string().trim().min(2).max(100),
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const configuredAdminCode = process.env.ADMIN_REGISTRATION_CODE?.trim()
+    const configuredAdminCode = await getAdminRegistrationCode()
     const role = adminCode && configuredAdminCode && adminCode === configuredAdminCode ? 'ADMIN' : 'MEMBER'
 
     if (adminCode && role !== 'ADMIN') {

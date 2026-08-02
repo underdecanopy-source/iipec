@@ -13,6 +13,7 @@ export default function LoginForm() {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const isRegistered = searchParams.get('registered') === 'true'
+  const isReset = searchParams.get('reset') === 'true'
   const callbackUrl = searchParams.get('callbackUrl')
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -94,6 +95,12 @@ export default function LoginForm() {
           </div>
         )}
 
+        {isReset && (
+          <div className="bg-green-50 border border-green-200 text-green-700 p-3 rounded-lg mb-4">
+            Your password was updated successfully. Please sign in with your new password.
+          </div>
+        )}
+
         {error && (
           <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4">
             {error}
@@ -120,6 +127,11 @@ export default function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+          </div>
+          <div className="flex items-center justify-end">
+            <Link href="/forgot-password" className="text-sm text-accent hover:underline">
+              Forgot password?
+            </Link>
           </div>
           <button
             type="submit"

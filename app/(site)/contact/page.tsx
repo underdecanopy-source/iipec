@@ -136,21 +136,27 @@ export default function ContactPage() {
             <h2 className="text-2xl font-bold text-primary mb-4">Get in Touch</h2>
             <div className="space-y-4 text-gray-600">
               <div className="flex items-start gap-3">
-                <span className="w-10 shrink-0 text-xs font-semibold uppercase tracking-wide text-accent">Addr</span>
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary text-accent">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s-6-4.35-6-10a6 6 0 1 1 12 0c0 5.65-6 10-6 10Z" /><circle cx="12" cy="11" r="2.5" /></svg>
+                </span>
                 <div className="min-w-0">
                   <p className="font-medium">Address</p>
                   <p className="break-words">Bethpage Alata Village, Adebayo, Off Ijebu Express Way, Ibadan, Oyo State.</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <span className="w-10 shrink-0 text-xs font-semibold uppercase tracking-wide text-accent">Mail</span>
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary text-accent">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" /><path d="m5 7 7 6 7-6" /></svg>
+                </span>
                 <div className="min-w-0">
                   <p className="font-medium">Email</p>
                   <p className="break-words">info@iipecphc.org</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <span className="w-10 shrink-0 text-xs font-semibold uppercase tracking-wide text-accent">Tel</span>
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary text-accent">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2Z" /></svg>
+                </span>
                 <div className="min-w-0">
                   <p className="font-medium">Phone</p>
                   <p>+234 803 404 5856</p>
