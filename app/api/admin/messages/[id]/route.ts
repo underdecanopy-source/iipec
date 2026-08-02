@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { enforceCsrfProtection } from '@/lib/security'
 
 const allowedStatuses = ['UNREAD', 'READ', 'REPLIED', 'RESOLVED'] as const
 
@@ -21,6 +22,10 @@ export async function PATCH(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  if (!enforceCsrfProtection(request)) {
+    return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 })
+  }
+
   const session = await getServerSession(authOptions)
   if (session?.user?.role !== 'ADMIN' || !session.user?.id) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
@@ -60,6 +65,10 @@ export async function DELETE(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  if (!enforceCsrfProtection(request)) {
+    return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 })
+  }
+
   const session = await getServerSession(authOptions)
   if (session?.user?.role !== 'ADMIN' || !session.user?.id) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })

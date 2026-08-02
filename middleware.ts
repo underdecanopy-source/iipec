@@ -2,10 +2,7 @@ import { withAuth } from 'next-auth/middleware'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// Protected routes that require authentication
 const protectedRoutes = ['/dashboard', '/profile', '/member-resources']
-
-// Admin-only routes
 const adminRoutes = ['/admin']
 
 export default withAuth(
@@ -14,26 +11,28 @@ export default withAuth(
     const token = (request as any).nextauth?.token
     const pathname = request.nextUrl.pathname
 
-    // Check if route is admin-only
     if (adminRoutes.some(route => pathname.startsWith(route))) {
       if (token?.role !== 'ADMIN') {
         return NextResponse.redirect(new URL('/dashboard', request.url))
       }
     }
 
-    // Check if route is protected
     if (protectedRoutes.some(route => pathname.startsWith(route))) {
       if (!token) {
         return NextResponse.redirect(new URL('/login', request.url))
       }
     }
 
-    // Add security headers
     const response = NextResponse.next()
     response.headers.set('X-Frame-Options', 'DENY')
     response.headers.set('X-Content-Type-Options', 'nosniff')
     response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
-    
+    response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()')
+    response.headers.set('X-DNS-Prefetch-Control', 'off')
+    response.headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'")
+    if (process.env.NODE_ENV === 'production') {
+      response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains')
+    }
     return response
   },
   {

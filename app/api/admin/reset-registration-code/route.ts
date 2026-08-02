@@ -4,9 +4,14 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { setAdminRegistrationCode } from '@/lib/adminRegistration'
+import { enforceCsrfProtection } from '@/lib/security'
 
 export async function POST(request: Request) {
   try {
+    if (!enforceCsrfProtection(request)) {
+      return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 })
+    }
+
     const session = await getServerSession(authOptions)
 
     if (!session?.user?.id || session.user.role !== 'ADMIN') {

@@ -4,6 +4,7 @@ import { z } from 'zod'
 import nodemailer from 'nodemailer'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { createRateLimiter, enforceCsrfProtection, escapeHtml, getClientIdentifier } from '@/lib/security'
 
 const contactSchema = z.object({
   name: z.string().trim().min(2).max(100),
@@ -30,8 +31,19 @@ const getTransporter = () => {
   })
 }
 
+const limiter = createRateLimiter(15 * 60 * 1000, 5)
+
 export async function POST(request: Request) {
   try {
+    if (!enforceCsrfProtection(request)) {
+      return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 })
+    }
+
+    const clientKey = getClientIdentifier(request)
+    if (!limiter.allow(clientKey)) {
+      return NextResponse.json({ error: 'Too many submissions. Please try again later.' }, { status: 429 })
+    }
+
     const body = await request.json()
     const parsed = contactSchema.safeParse(body)
 
@@ -49,10 +61,12 @@ export async function POST(request: Request) {
           select: { id: true },
         })
       : null
+    const safeMessage = parsed.data.message.trim()
 
     const submission = await prisma.contactSubmission.create({
       data: {
         ...parsed.data,
+        message: safeMessage,
         userId: user?.id,
         status: 'UNREAD',
       },
@@ -70,14 +84,14 @@ export async function POST(request: Request) {
           from: mailFrom,
           to: contactEmail,
           subject: `IIPEC Contact Form: ${parsed.data.subject}`,
-          text: `You have received a new message from the IIPEC contact form.\n\nName: ${parsed.data.name}\nEmail: ${parsed.data.email}\nSubject: ${parsed.data.subject}\n\nMessage:\n${parsed.data.message}`,
+          text: `You have received a new message from the IIPEC contact form.\n\nName: ${parsed.data.name}\nEmail: ${parsed.data.email}\nSubject: ${parsed.data.subject}\n\nMessage:\n${safeMessage}`,
           html: `
             <p>You have received a new message from the IIPEC contact form.</p>
-            <p><strong>Name:</strong> ${parsed.data.name}</p>
-            <p><strong>Email:</strong> ${parsed.data.email}</p>
-            <p><strong>Subject:</strong> ${parsed.data.subject}</p>
+            <p><strong>Name:</strong> ${escapeHtml(parsed.data.name)}</p>
+            <p><strong>Email:</strong> ${escapeHtml(parsed.data.email)}</p>
+            <p><strong>Subject:</strong> ${escapeHtml(parsed.data.subject)}</p>
             <p><strong>Message:</strong></p>
-            <p>${parsed.data.message.replace(/\n/g, '<br/>')}</p>
+            <p>${escapeHtml(parsed.data.message).replace(/\n/g, '<br/>')}</p>
           `,
           replyTo: parsed.data.email,
         })

@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { createRateLimiter, enforceCsrfProtection, escapeHtml, getClientIdentifier } from '@/lib/security'
 
 const getTransporter = () => {
   const host = process.env.SMTP_HOST?.trim()
@@ -22,10 +23,21 @@ const getTransporter = () => {
   })
 }
 
+const limiter = createRateLimiter(15 * 60 * 1000, 5)
+
 export async function POST(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  if (!enforceCsrfProtection(request)) {
+    return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 })
+  }
+
+  const clientKey = getClientIdentifier(request)
+  if (!limiter.allow(clientKey)) {
+    return NextResponse.json({ error: 'Too many admin replies. Please try again later.' }, { status: 429 })
+  }
+
   const session = await getServerSession(authOptions)
   if (session?.user?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
@@ -70,11 +82,11 @@ export async function POST(
       subject: `Re: ${submission.subject}`,
       text: `Hello ${submission.name},\n\n${reply}\n\n---\nOriginal message:\n${submission.message}`,
       html: `
-        <p>Hello ${submission.name},</p>
-        <p>${reply.replace(/\n/g, '<br/>')}</p>
+        <p>Hello ${escapeHtml(submission.name)},</p>
+        <p>${escapeHtml(reply).replace(/\n/g, '<br/>')}</p>
         <hr />
         <p><strong>Original message:</strong></p>
-        <p>${submission.message.replace(/\n/g, '<br/>')}</p>
+        <p>${escapeHtml(submission.message).replace(/\n/g, '<br/>')}</p>
       `,
       replyTo: mailFrom,
     })

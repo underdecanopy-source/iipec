@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
+import { createHash } from 'crypto'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
+import { enforceCsrfProtection } from '@/lib/security'
 
 const resetPasswordSchema = z.object({
   token: z.string().min(10),
@@ -10,6 +12,10 @@ const resetPasswordSchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    if (!enforceCsrfProtection(request)) {
+      return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 })
+    }
+
     const parsed = resetPasswordSchema.safeParse(await request.json())
 
     if (!parsed.success) {
@@ -20,9 +26,10 @@ export async function POST(request: Request) {
     }
 
     const { token, password } = parsed.data
+    const hashedToken = createHash('sha256').update(token).digest('hex')
     const user = await prisma.user.findFirst({
       where: {
-        resetPasswordToken: token,
+        resetPasswordToken: hashedToken,
         resetPasswordExpiresAt: {
           gt: new Date(),
         },
