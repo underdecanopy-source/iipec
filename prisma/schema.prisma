@@ -189,6 +189,7 @@ enum UserStatus {
   ACTIVE
   INACTIVE
   SUSPENDED
+  DISABLED
 }
 
 enum RSVPStatus {
