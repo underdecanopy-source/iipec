@@ -1,11 +1,19 @@
 'use server'
 
 import { headers } from 'next/headers'
+import { Ratelimit } from '@upstash/ratelimit'
+import { Redis } from '@upstash/redis'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 
-const loginAttempts = new Map<string, number>()
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  // Allow 5 requests from the same IP in a 1-minute window
+  limiter: Ratelimit.slidingWindow(5, '1 m'),
+  analytics: true,
+});
+
 const ResetPasswordSchema = z.object({
   token: z.string().min(1, 'Invalid token.'),
   password: z.string().min(8, 'Password must be at least 8 characters long.'),
@@ -17,21 +25,12 @@ const ResetPasswordSchema = z.object({
 
 export async function resetPassword(prevState: any, formData: FormData) {
   const ip = headers().get('x-forwarded-for') || '127.0.0.1'
-  const attempts = loginAttempts.get(ip) ?? 0
+  const { success, limit, remaining, reset } = await ratelimit.limit(ip)
 
-  if (attempts >= 5) {
+  if (!success) {
     return { error: 'Too many attempts. Please try again later.' }
   }
 
-  loginAttempts.set(ip, attempts + 1)
-  // Expire the rate limit attempt after 1 minute
-  setTimeout(() => {
-    const currentAttempts = loginAttempts.get(ip)
-    if (currentAttempts) {
-      loginAttempts.set(ip, currentAttempts - 1)
-    }
-  }, 60 * 1000)
-  // Add a check for confirmPassword on the server-side
   const validatedFields = ResetPasswordSchema.safeParse(
     Object.fromEntries(formData.entries())
   )
