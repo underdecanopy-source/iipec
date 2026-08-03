@@ -16,7 +16,7 @@ const nextCommand = process.platform === 'win32' ? 'next.cmd' : 'next'
 // For simplicity and to resolve build errors, we use `db push`.
 // In production, it's safer to run without `--accept-data-loss`.
 // For local/preview, the flag can be useful but should be used with caution.
-const dbCommandArgs = process.env.VERCEL_ENV === 'production' ? ['db', 'push'] : ['db', 'push', '--accept-data-loss']
+const dbCommandArgs = ['db', 'push', '--accept-data-loss']
 
 const steps = [
   { command: npxCommand, args: ['prisma', 'generate'] },
