@@ -14,8 +14,8 @@ const npxCommand = process.platform === 'win32' ? 'npx.cmd' : 'npx'
 const nextCommand = process.platform === 'win32' ? 'next.cmd' : 'next'
 
 const dbCommandArgs = process.env.NODE_ENV === 'production'
-  ? ['migrate', 'resolve', '--applied', 'MIGRATION_NAME'] // Replace MIGRATION_NAME
-  : ['db', 'push', '--accept-data-loss'] // For local dev
+  ? ['migrate', 'deploy']
+  : ['db', 'push', '--accept-data-loss']
 
 const steps = [
   { command: npxCommand, args: ['prisma', 'generate'] },
