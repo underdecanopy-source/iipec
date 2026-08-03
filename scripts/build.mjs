@@ -15,7 +15,7 @@ const nextCommand = process.platform === 'win32' ? 'next.cmd' : 'next'
 
 const steps = [
   { command: npxCommand, args: ['prisma', 'generate'] },
-  { command: npxCommand, args: ['prisma', 'db', 'push'] },
+  { command: npxCommand, args: ['prisma', 'db', 'push', '--accept-data-loss'] },
   { command: nextCommand, args: ['build'] },
 ]
 
