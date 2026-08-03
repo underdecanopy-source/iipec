@@ -1,4 +1,4 @@
-'use client';
+import { prisma } from '@/lib/prisma'
 
 interface StatItemProps {
   value: number;
@@ -16,12 +16,25 @@ function StatItem({ value, label }: StatItemProps) {
   );
 }
 
-export default function ImpactStats() {
+export default async function ImpactStats() {
+  const statKeys = [
+    'stats_trained_chaplains',
+    'stats_communities_served',
+    'stats_leadership_team',
+    'stats_training_programs',
+  ];
+
+  const settings = await prisma.siteSetting.findMany({
+    where: { key: { in: statKeys } },
+  });
+
+  const statsMap = new Map(settings.map(s => [s.key, parseInt(s.value, 10)]));
+
   const stats = [
-    { value: 50, label: 'Trained Chaplains' },
-    { value: 10, label: 'Communities Served' },
-    { value: 8, label: 'Leadership Team' },
-    { value: 4, label: 'Training Programs' },
+    { value: statsMap.get('stats_trained_chaplains') || 50, label: 'Trained Chaplains' },
+    { value: statsMap.get('stats_communities_served') || 10, label: 'Communities Served' },
+    { value: statsMap.get('stats_leadership_team') || 8, label: 'Leadership Team' },
+    { value: statsMap.get('stats_training_programs') || 4, label: 'Training Programs' },
   ];
 
   return (

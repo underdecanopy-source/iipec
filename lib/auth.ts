@@ -1,9 +1,14 @@
 import type { NextAuthOptions } from 'next-auth'
+import { CredentialsSignin } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
 
-const authSecret = process.env.NEXTAUTH_SECRET?.trim() || process.env.AUTH_SECRET?.trim()
+const authSecret = process.env.NEXTAUTH_SECRET?.trim()
+
+if (!authSecret) {
+  throw new Error('Missing NEXTAUTH_SECRET environment variable')
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -18,28 +23,28 @@ export const authOptions: NextAuthOptions = {
         const password = credentials?.password
 
         if (!email || !password) {
-          return null
+          throw new CredentialsSignin('Please provide email and password.')
         }
 
         const user = await prisma.user.findUnique({
           where: { email },
         })
 
-        if (!user) {
-          return null
+        if (!user || !user.password) {
+          throw new CredentialsSignin('Invalid credentials.')
         }
 
         const isValid = await bcrypt.compare(password, user.password)
 
         if (!isValid) {
-          return null
+          throw new CredentialsSignin('Invalid credentials.')
         }
 
         if (user.status === 'SUSPENDED') {
-          throw new Error('SUSPENDED')
+          throw new CredentialsSignin('Your account is suspended.')
         }
         if (user.status === 'DISABLED') {
-          throw new Error('DISABLED')
+          throw new CredentialsSignin('Your account has been disabled.')
         }
 
         await prisma.user.update({
@@ -70,15 +75,18 @@ export const authOptions: NextAuthOptions = {
       }
 
       if (trigger === 'update' && session?.user) {
+        // Update the token with new session data
         token.name = session.user.name
         token.phone = session.user.phone
         token.address = session.user.address
+        token.picture = session.user.image
       }
 
       return token
     },
     async session({ session, token }) {
-      if (session.user) {
+      // The token now has all the data, assign it to the session
+      if (token && session.user) {
         session.user.id = token.id
         session.user.role = token.role
         session.user.phone = token.phone

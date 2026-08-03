@@ -93,7 +93,6 @@ model Resource {
   fileUrl      String
   fileName     String?
   fileType     String
-  fileData     Bytes?
   size         String?
   isMemberOnly Boolean   @default(true)
   createdAt    DateTime  @default(now())
@@ -134,7 +133,6 @@ model ContactSubmission {
   subject     String
   message     String
   status      ContactStatus @default(UNREAD)
-  isRead      Boolean   @default(false)
   createdAt   DateTime  @default(now())
 
   user        User?           @relation(fields: [userId], references: [id], onDelete: Cascade)

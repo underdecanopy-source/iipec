@@ -13,9 +13,13 @@ if (!process.env.DATABASE_URL) {
 const npxCommand = process.platform === 'win32' ? 'npx.cmd' : 'npx'
 const nextCommand = process.platform === 'win32' ? 'next.cmd' : 'next'
 
+const dbCommandArgs = process.env.NODE_ENV === 'production'
+  ? ['migrate', 'deploy']
+  : ['db', 'push', '--accept-data-loss']
+
 const steps = [
   { command: npxCommand, args: ['prisma', 'generate'] },
-  { command: npxCommand, args: ['prisma', 'db', 'push', '--accept-data-loss'] },
+  { command: npxCommand, args: ['prisma', ...dbCommandArgs] },
   { command: nextCommand, args: ['build'] },
 ]
 
