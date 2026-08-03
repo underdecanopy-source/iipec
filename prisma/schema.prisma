@@ -207,4 +207,5 @@ enum ContactStatus {
   UNREAD
   READ
   ARCHIVED
+  REPLIED
 }
