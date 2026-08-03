@@ -14,7 +14,7 @@ const npxCommand = process.platform === 'win32' ? 'npx.cmd' : 'npx'
 const nextCommand = process.platform === 'win32' ? 'next.cmd' : 'next'
 
 const dbCommandArgs = process.env.NODE_ENV === 'production'
-  ? ['migrate', 'deploy']
+  ? ['migrate', 'resolve', '--applied', 'YOUR_MIGRATION_NAME_HERE'] // Replace with your actual migration name
   : ['db', 'push', '--accept-data-loss']
 
 const steps = [
