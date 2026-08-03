@@ -60,7 +60,7 @@ model RSVP {
   createdAt DateTime  @default(now())
   
   user      User      @relation(fields: [userId], references: [id])
-  event     Event     @relation(fields: [eventId], references: [id])
+  event     Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
 
 model BlogPost {
@@ -109,7 +109,7 @@ model PrayerRequest {
   status      String       @default("PENDING")
   createdAt   DateTime  @default(now())
   
-  user        User?     @relation(fields: [userId], references: [id])
+  user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VolunteerSignup {
@@ -123,7 +123,7 @@ model VolunteerSignup {
   status      String           @default("PENDING")
   createdAt   DateTime  @default(now())
   
-  user        User?     @relation(fields: [userId], references: [id])
+  user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ContactSubmission {
@@ -137,7 +137,7 @@ model ContactSubmission {
   isRead      Boolean   @default(false)
   createdAt   DateTime  @default(now())
 
-  user        User?           @relation(fields: [userId], references: [id])
+  user        User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
   replies     ContactReply[]
 }
 
@@ -148,8 +148,8 @@ model ContactReply {
   content         String
   createdAt       DateTime  @default(now())
 
-  contactSubmission ContactSubmission @relation(fields: [contactId], references: [id])
-  admin             User              @relation(fields: [adminId], references: [id])
+  contactSubmission ContactSubmission @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  admin             User              @relation(fields: [adminId], references: [id], onDelete: Cascade)
 }
 
 model AuditLog {
@@ -159,7 +159,7 @@ model AuditLog {
   details     String?
   createdAt   DateTime  @default(now())
 
-  user        User?     @relation(fields: [userId], references: [id])
+  user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model SiteSetting {
