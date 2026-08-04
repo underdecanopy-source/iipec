@@ -3,23 +3,16 @@ import crypto, { createHash } from 'crypto'
 import nodemailer from 'nodemailer'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
-import { createRateLimiter, enforceCsrfProtection, getClientIdentifier } from '@/lib/security'
+import { enforceCsrfProtection } from '@/lib/security'
 
 const forgotPasswordSchema = z.object({
   email: z.string().trim().toLowerCase().email().max(254),
 })
 
-const limiter = createRateLimiter(15 * 60 * 1000, 3)
-
 export async function POST(request: Request) {
   try {
     if (!enforceCsrfProtection(request)) {
       return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 })
-    }
-
-    const clientKey = getClientIdentifier(request)
-    if (!limiter.allow(clientKey)) {
-      return NextResponse.json({ error: 'Too many password reset attempts. Please try again later.' }, { status: 429 })
     }
 
     const parsed = forgotPasswordSchema.safeParse(await request.json())

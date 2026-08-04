@@ -4,7 +4,7 @@ import { z } from 'zod'
 import nodemailer from 'nodemailer'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { createRateLimiter, enforceCsrfProtection, escapeHtml, getClientIdentifier } from '@/lib/security'
+import { enforceCsrfProtection, escapeHtml } from '@/lib/security'
 
 const contactSchema = z.object({
   name: z.string().trim().min(2).max(100),
@@ -31,17 +31,10 @@ const getTransporter = () => {
   })
 }
 
-const limiter = createRateLimiter(15 * 60 * 1000, 5)
-
 export async function POST(request: Request) {
   try {
     if (!enforceCsrfProtection(request)) {
       return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 })
-    }
-
-    const clientKey = getClientIdentifier(request)
-    if (!limiter.allow(clientKey)) {
-      return NextResponse.json({ error: 'Too many submissions. Please try again later.' }, { status: 429 })
     }
 
     const body = await request.json()
