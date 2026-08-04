@@ -208,11 +208,3 @@ enum ContactStatus {
   ARCHIVED
   REPLIED
 }
-
-model RateLimitAttempt {
-  id        String   @id @default(cuid())
-  key       String
-  timestamp DateTime @default(now())
-
-  @@index([key, timestamp])
-}

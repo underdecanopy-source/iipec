@@ -1,8 +1,3 @@
-import { prisma } from '@/lib/prisma'
-
-const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000
-const RATE_LIMIT_MAX_REQUESTS = 5
-
 export function getClientIdentifier(request: Request) {
   const headers = request.headers
   // Use the Vercel-provided IP header if available
@@ -10,42 +5,6 @@ export function getClientIdentifier(request: Request) {
   const realIp = headers.get('x-real-ip')?.trim()
   const ip = forwardedFor || realIp || 'unknown'
   return ip
-}
-
-export function createRateLimiter(windowMs = RATE_LIMIT_WINDOW_MS, maxRequests = RATE_LIMIT_MAX_REQUESTS) {
-  return {
-    async allow(key: string) {
-      const now = Date.now()
-      const windowStart = now - windowMs
-
-      // Clean up old attempts and count recent ones in a single transaction
-      const [_, attempts] = await prisma.$transaction([
-        prisma.rateLimitAttempt.deleteMany({
-          where: {
-            key: key,
-            timestamp: { lt: new Date(windowStart) },
-          },
-        }),
-        prisma.rateLimitAttempt.findMany({
-          where: {
-            key: key,
-            timestamp: { gte: new Date(windowStart) },
-          },
-        }),
-      ])
-
-      if (attempts.length >= maxRequests) {
-        return false
-      }
-
-      // Record the new attempt
-      await prisma.rateLimitAttempt.create({
-        data: { key, timestamp: new Date(now) },
-      })
-
-        return true
-    },
-  }
 }
 
 export function enforceCsrfProtection(request: Request) {

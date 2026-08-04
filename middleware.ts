@@ -1,6 +1,7 @@
 import { withAuth } from 'next-auth/middleware'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { enforceCsrfProtection } from './lib/security'
 
 const protectedRoutes = ['/dashboard', '/profile', '/member-resources']
 const adminRoutes = ['/admin']
@@ -10,6 +11,11 @@ export default withAuth(
     // `nextauth` is attached at runtime by next-auth middleware; cast to any for type safety
     const token = (request as any).nextauth?.token
     const pathname = request.nextUrl.pathname
+
+    // Enforce CSRF protection on all state-changing requests
+    if (!enforceCsrfProtection(request)) {
+      return new NextResponse('Invalid request origin', { status: 403 })
+    }
 
     if (adminRoutes.some(route => pathname.startsWith(route))) {
       if (token?.role !== 'ADMIN') {
