@@ -1,9 +1,18 @@
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 import { getServerSession } from 'next-auth'
+import { headers } from 'next/headers'
+import { Ratelimit } from '@upstash/ratelimit'
+import { Redis } from '@upstash/redis'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { createRateLimiter, enforceCsrfProtection, escapeHtml, getClientIdentifier } from '@/lib/security'
+import { enforceCsrfProtection, escapeHtml } from '@/lib/security'
+
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(5, '10 m'), // 5 requests per 10 minutes for admin replies
+  analytics: true,
+});
 
 const getTransporter = () => {
   const host = process.env.SMTP_HOST?.trim()
@@ -23,8 +32,6 @@ const getTransporter = () => {
   })
 }
 
-const limiter = createRateLimiter(15 * 60 * 1000, 5)
-
 export async function POST(
   request: Request,
   { params }: { params: { id: string } }
@@ -33,8 +40,9 @@ export async function POST(
     return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 })
   }
 
-  const clientKey = getClientIdentifier(request)
-  if (!limiter.allow(clientKey)) {
+  const ip = headers().get('x-forwarded-for') || '127.0.0.1'
+  const { success } = await ratelimit.limit(ip)
+  if (!success) {
     return NextResponse.json({ error: 'Too many admin replies. Please try again later.' }, { status: 429 })
   }
 
