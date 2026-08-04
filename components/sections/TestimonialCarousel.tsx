@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+
 import { carouselTestimonials } from '@/lib/testimonials'
 
 export function TestimonialCarousel() {
@@ -30,7 +31,7 @@ export function TestimonialCarousel() {
                 }`}
               >
                 <p className="text-xl md:text-2xl text-gray-700 italic mb-6">
-                  "{testimonial.quote}"
+                  &quot;{testimonial.quote}&quot;
                 </p>
                 <p className="font-bold text-primary">{testimonial.author}</p>
                 <p className="text-gray-500 text-sm">{testimonial.role}</p>

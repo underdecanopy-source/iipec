@@ -1,15 +1,17 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { headers } from 'next/headers'
+
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
 import { z } from 'zod'
+
 import { authOptions } from '@/lib/auth'
 import { getTransporter } from '@/lib/email'
 import { prisma } from '@/lib/prisma'
 import { enforceCsrfProtection, escapeHtml } from '@/lib/security'
 
-const ratelimit = new Ratelimit({
+const ratelimit = new Ratelimit({ // Moved to top after imports
   redis: Redis.fromEnv(),
   limiter: Ratelimit.slidingWindow(5, '10 m'), // 5 requests per 10 minutes for admin replies
   analytics: true,

@@ -1,12 +1,13 @@
 'use server'
 
 import { headers } from 'next/headers'
+
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
 import { z } from 'zod'
+
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
-
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
   // Allow 5 requests from the same IP in a 1-minute window

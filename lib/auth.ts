@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import bcrypt from 'bcryptjs'
+
+import bcrypt from 'bcryptjs' // External
+import CredentialsProvider from 'next-auth/providers/credentials' // External
 import { prisma } from '@/lib/prisma'
 
 const authSecret = process.env.NEXTAUTH_SECRET?.trim()

@@ -50,7 +50,7 @@ export function Footer() {
               </a>
             </div>
             <p className="mt-4 text-sm text-secondary/60">
-              © 2026 IIPEC Potter's House Command. All rights reserved.
+              &copy; 2026 IIPEC Potter&apos;s House Command. All rights reserved.
             </p>
           </div>
         </div>

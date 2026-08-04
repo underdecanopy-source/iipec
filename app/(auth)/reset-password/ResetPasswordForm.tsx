@@ -1,10 +1,11 @@
 'use client'
 
 import { useFormState, useFormStatus } from 'react-dom'
-import { useSearchParams } from 'next/navigation'
-import { resetPassword } from '@/actions/auth'
 import { useEffect } from 'react'
+
+import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
+import { resetPassword } from '@/actions/auth'
 
 function SubmitButton() {
   const { pending } = useFormStatus()

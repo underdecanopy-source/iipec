@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import { EventCard } from './EventCard'
+
 import { events } from '@/lib/content'
+import { EventCard } from './EventCard'
 
 export function FeaturedEvents() {
   return (

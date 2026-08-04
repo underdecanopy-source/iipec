@@ -1,9 +1,10 @@
 'use client'
 
 import Link from 'next/link'
+import { useSession, signOut } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import { useSession, signOut } from 'next-auth/react'
+
 
 export function Navbar() {
   const pathname = usePathname()
