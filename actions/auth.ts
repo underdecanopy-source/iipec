@@ -54,7 +54,7 @@ export async function resetPassword(prevState: any, formData: FormData) {
   const { token, password } = validatedFields.data
 
   try {
-    const user = await prisma.user.findUnique({ // Changed to findUnique as email is unique
+    const user = await prisma.user.findFirst({ // Changed to findFirst as query is not on a unique field
       where: {
         resetPasswordToken: token,
         resetPasswordExpiresAt: { gt: new Date() },
