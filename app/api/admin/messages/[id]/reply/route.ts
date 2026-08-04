@@ -14,6 +14,10 @@ const ratelimit = new Ratelimit({
   analytics: true,
 });
 
+const replySchema = z.object({
+  reply: z.string().trim().min(1, 'Reply text is required.'),
+});
+
 const getTransporter = () => {
   const host = process.env.SMTP_HOST?.trim()
   const port = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined
@@ -52,7 +56,13 @@ export async function POST(
   }
 
   const body = await request.json().catch(() => null)
-  const reply = body?.reply?.trim()
+  const parsed = replySchema.safeParse(body);
+
+  if (!parsed.success) {
+    return NextResponse.json({ error: 'Reply text is required.' }, { status: 400 });
+  }
+
+  const { reply } = parsed.data;
 
   if (!reply) {
     return NextResponse.json({ error: 'Reply text is required.' }, { status: 400 })

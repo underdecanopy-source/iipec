@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
 import crypto, { createHash } from 'crypto'
-import nodemailer from 'nodemailer'
 import { headers } from 'next/headers'
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
+import { getTransporter } from '@/lib/email'
 import { enforceCsrfProtection } from '@/lib/security'
 
 const ratelimit = new Ratelimit({
@@ -58,19 +58,8 @@ export async function POST(request: Request) {
       const origin = request.headers.get('origin') || process.env.NEXTAUTH_URL || 'http://localhost:3000'
       const resetUrl = `${origin.replace(/\/$/, '')}/reset-password?token=${token}`
 
-      const smtpHost = process.env.SMTP_HOST?.trim()
-      if (smtpHost) {
-        const transporter = nodemailer.createTransport({
-          host: smtpHost,
-          port: Number(process.env.SMTP_PORT || 587),
-          secure: process.env.SMTP_SECURE === 'true',
-          auth: process.env.SMTP_USER && process.env.SMTP_PASS
-            ? {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-              }
-            : undefined,
-        })
+      const transporter = getTransporter()
+      if (transporter) {
 
         await transporter.sendMail({
           from: process.env.EMAIL_FROM?.trim() || process.env.SMTP_USER?.trim() || 'no-reply@iipecphc.org',

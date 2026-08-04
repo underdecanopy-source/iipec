@@ -23,6 +23,12 @@ const ResetPasswordSchema = z.object({
   path: ['confirmPassword'], // path of error
 });
 
+// Define a type for the form state
+type FormState = {
+  error?: string;
+  message?: string;
+};
+
 export async function resetPassword(prevState: any, formData: FormData) {
   const ip = headers().get('x-forwarded-for') || '127.0.0.1'
   const { success } = await ratelimit.limit(ip)
@@ -42,13 +48,13 @@ export async function resetPassword(prevState: any, formData: FormData) {
         fieldErrors.password?.[0] ??
         fieldErrors.confirmPassword?.[0] ??
         'Invalid data provided.',
-    };
+    } as FormState;
   }
 
   const { token, password } = validatedFields.data
 
   try {
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUnique({ // Changed to findUnique as email is unique
       where: {
         resetPasswordToken: token,
         resetPasswordExpiresAt: { gt: new Date() },
@@ -70,8 +76,8 @@ export async function resetPassword(prevState: any, formData: FormData) {
       },
     })
 
-    return { message: 'Your password has been successfully updated.' }
+    return { message: 'Your password has been successfully updated.' } as FormState;
   } catch (error) {
-    return { error: 'An unexpected error occurred. Please try again.' }
+    return { error: 'An unexpected error occurred. Please try again.' } as FormState;
   }
 }
