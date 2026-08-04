@@ -1,5 +1,4 @@
 import type { NextAuthOptions } from 'next-auth'
-import { CredentialsSignin } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
@@ -23,7 +22,7 @@ export const authOptions: NextAuthOptions = {
         const password = credentials?.password
 
         if (!email || !password) {
-          throw new CredentialsSignin('Please provide email and password.')
+          throw new Error('Please provide email and password.')
         }
 
         const user = await prisma.user.findUnique({
@@ -31,20 +30,20 @@ export const authOptions: NextAuthOptions = {
         })
 
         if (!user || !user.password) {
-          throw new CredentialsSignin('Invalid credentials.')
+          throw new Error('Invalid credentials.')
         }
 
         const isValid = await bcrypt.compare(password, user.password)
 
         if (!isValid) {
-          throw new CredentialsSignin('Invalid credentials.')
+          throw new Error('Invalid credentials.')
         }
 
         if (user.status === 'SUSPENDED') {
-          throw new CredentialsSignin('Your account is suspended.')
+          throw new Error('Your account is suspended.')
         }
         if (user.status === 'DISABLED') {
-          throw new CredentialsSignin('Your account has been disabled.')
+          throw new Error('Your account has been disabled.')
         }
 
         await prisma.user.update({
