@@ -1,9 +1,18 @@
 import { NextResponse } from 'next/server'
 import crypto, { createHash } from 'crypto'
 import nodemailer from 'nodemailer'
+import { headers } from 'next/headers'
+import { Ratelimit } from '@upstash/ratelimit'
+import { Redis } from '@upstash/redis'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { enforceCsrfProtection } from '@/lib/security'
+
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(3, '15 m'), // 3 requests per 15 minutes
+  analytics: true,
+});
 
 const forgotPasswordSchema = z.object({
   email: z.string().trim().toLowerCase().email().max(254),
@@ -11,6 +20,12 @@ const forgotPasswordSchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    const ip = headers().get('x-forwarded-for') || '127.0.0.1'
+    const { success } = await ratelimit.limit(ip)
+    if (!success) {
+      return NextResponse.json({ error: 'Too many password reset attempts. Please try again later.' }, { status: 429 })
+    }
+
     if (!enforceCsrfProtection(request)) {
       return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 })
     }

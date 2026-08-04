@@ -1,10 +1,19 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
+import { headers } from 'next/headers'
+import { Ratelimit } from '@upstash/ratelimit'
+import { Redis } from '@upstash/redis'
 import { z } from 'zod'
 import nodemailer from 'nodemailer'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { enforceCsrfProtection, escapeHtml } from '@/lib/security'
+
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(5, '10 m'), // 5 requests per 10 minutes
+  analytics: true,
+});
 
 const contactSchema = z.object({
   name: z.string().trim().min(2).max(100),
@@ -33,6 +42,12 @@ const getTransporter = () => {
 
 export async function POST(request: Request) {
   try {
+    const ip = headers().get('x-forwarded-for') || '127.0.0.1'
+    const { success } = await ratelimit.limit(ip)
+    if (!success) {
+      return NextResponse.json({ error: 'Too many submissions. Please try again later.' }, { status: 429 })
+    }
+
     if (!enforceCsrfProtection(request)) {
       return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 })
     }

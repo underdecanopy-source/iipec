@@ -19,7 +19,7 @@ export default function ResetPasswordForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const token = searchParams.get('token')
-  const [state, formAction] = useFormState(resetPassword, { error: undefined, message: undefined })
+  const [state, formAction] = useFormState(resetPassword, { error: '' })
 
   useEffect(() => {
     if (state.message) {
