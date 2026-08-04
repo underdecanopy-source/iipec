@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { headers } from 'next/headers'
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
+import { z } from 'zod' // Added this import
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { getTransporter } from '@/lib/email'
