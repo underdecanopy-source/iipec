@@ -1,13 +1,13 @@
-import { withAuth, NextAuthRequest } from 'next-auth/middleware'
-import { NextResponse } from 'next/server'
+import { withAuth } from 'next-auth/middleware'
+import { NextResponse, NextRequest } from 'next/server' // Import NextRequest
 import { enforceCsrfProtection } from './lib/security'
 
 const protectedRoutes = ['/dashboard', '/profile', '/member-resources']
 const adminRoutes = ['/admin']
 
 export default withAuth(
-  // Use NextAuthRequest for better type safety
-  function middleware(request: NextAuthRequest) {
+  // Use NextRequest as the base type, as NextAuthRequest is not directly exported in v4
+  function middleware(request: NextRequest) {
     // `nextauth` is attached at runtime by next-auth middleware; cast to any for type safety
     const token = (request as any).nextauth?.token
     const pathname = request.nextUrl.pathname
