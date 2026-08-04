@@ -5,6 +5,7 @@ import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { getTransporter } from '@/lib/email'
 import { enforceCsrfProtection, escapeHtml } from '@/lib/security'
 
 const ratelimit = new Ratelimit({
@@ -19,24 +20,6 @@ const contactSchema = z.object({
   subject: z.string().trim().min(2).max(150),
   message: z.string().trim().min(10).max(5000),
 })
-
-const getTransporter = () => {
-  const host = process.env.SMTP_HOST?.trim()
-  const port = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined
-  const user = process.env.SMTP_USER?.trim()
-  const pass = process.env.SMTP_PASSWORD?.trim()
-
-  if (!host || !port || !user || !pass) {
-    return null
-  }
-
-  return nodemailer.createTransport({
-    host,
-    port,
-    secure: port === 465,
-    auth: { user, pass },
-  })
-}
 
 export async function POST(request: Request) {
   try {
@@ -79,7 +62,7 @@ export async function POST(request: Request) {
       select: { id: true },
     })
 
-    const transporter = getTransporter()
+    const transporter = getTransporter() // Use the shared transporter
     const contactEmail = process.env.CONTACT_EMAIL?.trim() || 'info@iipecphc.org'
     const mailFrom = process.env.EMAIL_FROM?.trim() || process.env.SMTP_USER?.trim() || `no-reply@${process.env.NEXTAUTH_URL?.replace(/^https?:\/\//, '')}`
 

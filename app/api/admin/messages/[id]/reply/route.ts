@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
 import { getServerSession } from 'next-auth'
 import { headers } from 'next/headers'
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
+import { z } from 'zod'
 import { authOptions } from '@/lib/auth'
+import { getTransporter } from '@/lib/email'
 import { prisma } from '@/lib/prisma'
 import { enforceCsrfProtection, escapeHtml } from '@/lib/security'
 
@@ -17,24 +18,6 @@ const ratelimit = new Ratelimit({
 const replySchema = z.object({
   reply: z.string().trim().min(1, 'Reply text is required.'),
 });
-
-const getTransporter = () => {
-  const host = process.env.SMTP_HOST?.trim()
-  const port = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined
-  const user = process.env.SMTP_USER?.trim()
-  const pass = process.env.SMTP_PASSWORD?.trim()
-
-  if (!host || !port || !user || !pass) {
-    return null
-  }
-
-  return nodemailer.createTransport({
-    host,
-    port,
-    secure: port === 465,
-    auth: { user, pass },
-  })
-}
 
 export async function POST(
   request: Request,
@@ -63,10 +46,6 @@ export async function POST(
   }
 
   const { reply } = parsed.data;
-
-  if (!reply) {
-    return NextResponse.json({ error: 'Reply text is required.' }, { status: 400 })
-  }
 
   const submission = await prisma.contactSubmission.findUnique({
     where: { id: params.id },
