@@ -28,22 +28,35 @@ export async function GET(
     select: {
       fileName: true,
       fileType: true,
-      fileData: true,
+      fileUrl: true, // Select fileUrl instead of fileData
     },
   })
 
-  if (!resource || !resource.fileData) {
-    return NextResponse.json({ error: 'Resource file not found' }, { status: 404 })
+  if (!resource || !resource.fileUrl) {
+    return NextResponse.json({ error: 'Resource not found or file URL is missing' }, { status: 404 })
   }
 
   const filename = resource.fileName || 'resource'
   const shouldDownload = new URL(request.url).searchParams.get('download') === '1'
-  const file = new Uint8Array(resource.fileData)
 
-  return new NextResponse(file, {
+  // Fetch the file content from the URL
+  let fileContent: ArrayBuffer;
+  try {
+    const response = await fetch(resource.fileUrl);
+    if (!response.ok) {
+      console.error(`Failed to fetch file from URL: ${resource.fileUrl}, Status: ${response.status}`);
+      return NextResponse.json({ error: 'Failed to retrieve file content' }, { status: 500 });
+    }
+    fileContent = await response.arrayBuffer();
+  } catch (error) {
+    console.error('Error fetching file from URL:', error);
+    return NextResponse.json({ error: 'Error retrieving file content' }, { status: 500 });
+  }
+
+  return new NextResponse(fileContent, {
     headers: {
       'Content-Type': resource.fileType || 'application/octet-stream',
-      'Content-Length': String(file.byteLength),
+      'Content-Length': String(fileContent.byteLength),
       'Content-Disposition': contentDisposition(filename, shouldDownload),
       'Cache-Control': 'private, max-age=0, must-revalidate',
     },
