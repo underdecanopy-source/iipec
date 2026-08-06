@@ -9,3 +9,4 @@ Fix Vercel production build failing due to ESLint errors.
 - [x] Step 2: Update `.eslintrc.json` to disable problematic rules
 - [x] Step 3: Fix genuine code issues (unused imports/params)
 - [x] Step 4: Verify build passes locally with `npm run build` (build succeeded — all static pages generated)
+- [x] Step 5: Create pull request with the build fix (PR #1)
