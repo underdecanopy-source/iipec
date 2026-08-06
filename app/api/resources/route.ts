@@ -15,7 +15,7 @@ const resourceListSelect = {
   createdAt: true,
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   const session = await getServerSession(authOptions)
   if (!session?.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

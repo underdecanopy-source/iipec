@@ -6,8 +6,6 @@ import { enforceCsrfProtection } from '@/lib/security'
 
 const allowedStatuses = ['UNREAD', 'READ', 'REPLIED', 'RESOLVED'] as const
 
-type ContactStatus = (typeof allowedStatuses)[number]
-
 const logAudit = async (userId: string, action: string, details?: string) => {
   await prisma.auditLog.create({
     data: {
