@@ -1,5 +1,5 @@
 import { withAuth } from 'next-auth/middleware'
-import { NextResponse, NextRequest } from 'next/server' // Import NextRequest
+import { NextResponse, NextRequest } from 'next/server' // Import NextRequest32
 
 import { enforceCsrfProtection } from './lib/security'
 const protectedRoutes = ['/dashboard', '/profile', '/member-resources']
