@@ -2,7 +2,7 @@ export const stats = [
   { value: '5000+', label: 'Trained Chaplains' },
   { value: '1,200+', label: 'Communities Served' },
   { value: '8', label: 'Leadership Team' },
-  { value: '4', label: 'Training Programs' },
+  { value: '4', label: 'Training Programmes' },
 ];
 
 export const events = [
@@ -19,7 +19,7 @@ export const events = [
     date: 'September 5-6, 2026',
     time: '10:00 AM - 4:00 PM',
     location: 'Abuja, Nigeria',
-    description: 'Specialized training for chaplains serving in correctional facilities.',
+    description: 'Specialised training for chaplains serving in correctional facilities.',
     image: '/images/event-prison.jpg',
   },
 ];

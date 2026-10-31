@@ -23,7 +23,7 @@ export default function LeadershipPage() {
     {
       name: 'Chap. Dr. Isaac Okpuzor',
       role: 'Deputy Chief of Chaplain, Zonal Commandant',
-      description: 'Overseeing zonal operations and chaplain training programs.',
+      description: 'Overseeing zonal operations and chaplain training programmes.',
       image: '/images/Chap. Dr. Isaac Okpuzor.jpg',
     },
     {

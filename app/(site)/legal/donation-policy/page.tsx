@@ -8,7 +8,7 @@ export default function DonationPolicyPage() {
           <h3>Commitment to Transparency</h3>
           <p>IIPEC Potter's House Command is committed to transparency and accountability in all financial matters.</p>
           <h3>Use of Donations</h3>
-          <p>Donations are used to support chaplain training programs, community outreach, and operational expenses.</p>
+          <p>Donations are used to support chaplain training programmes, community outreach, and operational expenses.</p>
           <h3>Tax Deductibility</h3>
           <p>Donations may be tax-deductible. Please consult with your tax advisor for specific guidance.</p>
           <h3>Refund Policy</h3>

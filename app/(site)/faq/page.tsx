@@ -13,8 +13,8 @@ export default function FAQPage() {
       answer: 'You can become a member by registering on our website. Simply click the "Register" button and fill in your details to create an account.',
     },
     {
-      question: 'What programs do you offer?',
-      answer: 'We offer comprehensive chaplain training programs including Prison Chaplaincy, Evangelical Outreach, Pastoral Counseling, and general Chaplain Training.',
+      question: 'What programmes do you offer?',
+      answer: 'We offer comprehensive chaplain training programmes including Prison Chaplaincy, Evangelical Outreach, Pastoral Counselling, and general Chaplain Training.',
     },
     {
       question: 'How can I support the ministry?',

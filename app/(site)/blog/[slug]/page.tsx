@@ -8,12 +8,12 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     title: 'The Impact of Chaplaincy in Prisons',
     slug: params.slug,
     content: `
-      <p>Chaplains play a vital role in correctional facilities, providing spiritual care, counseling, and hope to inmates.</p>
+      <p>Chaplains play a vital role in correctional facilities, providing spiritual care, counselling, and hope to inmates.</p>
       <p>IIPEC Potter's House Command is committed to training chaplains who can effectively serve in these challenging environments.</p>
-      <p>Through our prison ministry programs, we equip chaplains with the skills needed to support rehabilitation and transformation.</p>
+      <p>Through our prison ministry programmes, we equip chaplains with the skills needed to support rehabilitation and transformation.</p>
       <h3>Key Areas of Impact</h3>
       <ul>
-        <li>Spiritual guidance and counseling</li>
+        <li>Spiritual guidance and counselling</li>
         <li>Rehabilitation support</li>
         <li>Community reintegration assistance</li>
         <li>Hope and emotional healing</li>

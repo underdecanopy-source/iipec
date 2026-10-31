@@ -14,7 +14,7 @@ export default function BlogPage() {
     {
       title: 'Equipping Chaplains for Excellence',
       slug: 'equipping-chaplains-for-excellence',
-      excerpt: 'A look at our training programs and how they prepare chaplains for effective ministry.',
+      excerpt: 'A look at our training programmes and how they prepare chaplains for effective ministry.',
       date: 'June 5, 2026',
       author: 'Chap. Dr. Isaac Okpuzor',
       image: '/images/blog-training.jpg',

@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { AdminResourceManager } from './AdminResourceManager'
 import { AdminEventManager } from './AdminEventManager'
+import { AdminProgrammeManager } from './AdminProgrammeManager'
 
 export default async function AdminPage() {
   const session = await getServerSession(authOptions)
@@ -88,6 +89,7 @@ export default async function AdminPage() {
         </div>
         <AdminResourceManager />
         <AdminEventManager />
+        <AdminProgrammeManager />
       </div>
     </div>
   )
