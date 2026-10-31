@@ -31,17 +31,22 @@ export function Hero() {
       <div className="container-custom relative z-10">
         <div className="max-w-3xl">
           <p className="text-accent-light font-semibold text-sm uppercase tracking-wider mb-4">
-            IIPEC Potter's House Command
+            International Institute of Pastoral Education and Chaplaincy
           </p>
           <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 transition-all duration-1000 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}>
-            Equipping Chaplains to Serve with Excellence and Compassion
+            Potter’s House Command
           </h1>
           <p className={`text-xl text-secondary/90 mb-8 max-w-2xl transition-all duration-1000 delay-200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}>
-            Be part of a growing movement training and sending chaplains to meet real needs in real communities.
+            Trained. Commissioned. Deployed.
+          </p>
+          <p className={`text-lg text-secondary/90 mb-8 max-w-2xl transition-all duration-1000 delay-300 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}>
+            Welcome to the official platform of IIPEC Chaplains, Potter’s House Command - a community of purpose-driven men and women equipped for pastoral service, chaplaincy ministry, and humanitarian outreach across Nigeria and beyond.
           </p>
           <div className={`flex flex-wrap gap-4 transition-all duration-1000 delay-400 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
