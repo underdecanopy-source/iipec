@@ -4,13 +4,11 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
-function canManage(session: Awaited<ReturnType<typeof getServerSession>>) {
-  return session?.user?.role === 'ADMIN'
-}
-
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions)
-  if (!canManage(session)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  if (session?.user?.role !== 'ADMIN') {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
 
   try {
     const body = await request.json()
@@ -30,7 +28,9 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 
 export async function DELETE(_request: Request, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions)
-  if (!canManage(session)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  if (session?.user?.role !== 'ADMIN') {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
 
   try {
     await prisma.event.delete({ where: { id: params.id } })
