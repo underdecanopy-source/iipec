@@ -10,6 +10,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'pottershousecommand.wixsite.com',
       },
+      {
+        protocol: 'https',
+        hostname: '**.public.blob.vercel-storage.com',
+      },
     ],
   },
   experimental: {

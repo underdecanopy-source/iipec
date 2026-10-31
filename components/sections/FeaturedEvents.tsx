@@ -1,9 +1,16 @@
 import Link from 'next/link'
 
-import { events } from '@/lib/content'
+import { prisma } from '@/lib/prisma'
+import { formatEventDate } from '@/lib/events'
 import { EventCard } from './EventCard'
 
-export function FeaturedEvents() {
+export async function FeaturedEvents() {
+  const events = await prisma.event.findMany({
+    where: { isUpcoming: true },
+    orderBy: { date: 'asc' },
+    take: 2,
+  })
+
   return (
     <section className="section-padding">
       <div className="container-custom">
@@ -13,11 +20,24 @@ export function FeaturedEvents() {
             View All →
           </Link>
         </div>
-        <div className="grid md:grid-cols-2 gap-8">
-          {events.map((event) => (
-            <EventCard key={event.title} {...event} />
-          ))}
-        </div>
+        {events.length ? (
+          <div className="grid md:grid-cols-2 gap-8">
+            {events.map((event) => (
+              <EventCard
+                key={event.id}
+                title={event.title}
+                date={formatEventDate(event.date)}
+                time={event.time}
+                location={event.location}
+                description={event.description}
+                image={event.image}
+                href={`/events/${event.slug}`}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-600">No events are currently scheduled.</p>
+        )}
       </div>
     </section>
   )

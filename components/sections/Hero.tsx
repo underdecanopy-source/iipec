@@ -30,7 +30,7 @@ export function Hero() {
       
       <div className="container-custom relative z-10">
         <div className="max-w-3xl">
-          <p className="text-accent-light font-semibold text-sm uppercase tracking-wider mb-4">
+          <p className="text-accent-light font-semibold text-[1.05rem] uppercase tracking-wider mb-4">
             International Institute of Pastoral Education and Chaplaincy
           </p>
           <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 transition-all duration-1000 ${

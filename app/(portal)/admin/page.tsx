@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { AdminResourceManager } from './AdminResourceManager'
+import { AdminEventManager } from './AdminEventManager'
 
 export default async function AdminPage() {
   const session = await getServerSession(authOptions)
@@ -86,6 +87,7 @@ export default async function AdminPage() {
           </Link>
         </div>
         <AdminResourceManager />
+        <AdminEventManager />
       </div>
     </div>
   )

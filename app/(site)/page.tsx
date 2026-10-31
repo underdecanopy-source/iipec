@@ -5,6 +5,8 @@ import { Stats } from '@/components/sections/Stats'
 import { TestimonialCarousel } from '@/components/sections/TestimonialCarousel'
 import { FeaturedEvents } from '@/components/sections/FeaturedEvents'
 
+export const dynamic = 'force-dynamic'
+
 export default function HomePage() {
   return (
     <>
@@ -19,11 +21,11 @@ export default function HomePage() {
             <div>
               <h2 className="section-title">Our Mission</h2>
               <p className="text-lg text-gray-700 mb-6">
-                Be part of a growing movement equipping chaplains to serve with excellence and compassion.
+                To carry out the Marching Order of the Supreme Commandant General of the whole universe:
               </p>
               <p className="text-gray-600 mb-8">
-                We train, equip, and send chaplains to meet real needs in real communities.
-                Your partnership helps us make a lasting impact.
+                <span className="block text-lg font-medium text-primary mb-4">“Go ye into all the world and preach the gospel.”</span>
+                We fulfil this mandate through structured chaplaincy training, active community outreach, hospital ministry, and pastoral care to individuals in every sphere of life, regardless of position, status, or background.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link href="/about" className="btn-primary">
