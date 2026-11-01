@@ -1,33 +1,16 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { ensureDefaultBlogPosts, formatBlogDate } from '@/lib/blog'
+import { prisma } from '@/lib/prisma'
 
-export default function BlogPage() {
-  const posts = [
-    {
-      title: 'The Impact of Chaplaincy in Prisons',
-      slug: 'impact-of-chaplaincy-in-prisons',
-      excerpt: 'Discover how chaplains are making a difference in correctional facilities across Nigeria.',
-      date: 'June 10, 2026',
-      author: 'Sir Ige Olumide',
-      image: '/images/blog-prison.jpg',
-    },
-    {
-      title: 'Equipping Chaplains for Excellence',
-      slug: 'equipping-chaplains-for-excellence',
-      excerpt: 'A look at our training programmes and how they prepare chaplains for effective ministry.',
-      date: 'June 5, 2026',
-      author: 'Chap. Dr. Isaac Okpuzor',
-      image: '/images/blog-training.jpg',
-    },
-    {
-      title: 'Serving with Compassion in Communities',
-      slug: 'serving-with-compassion',
-      excerpt: 'How IIPEC is reaching communities with love and practical support.',
-      date: 'May 28, 2026',
-      author: 'Chap. Dr. Rebecca Okpuzor',
-      image: '/images/blog-community.jpg',
-    },
-  ]
+export const dynamic = 'force-dynamic'
+
+export default async function BlogPage() {
+  await ensureDefaultBlogPosts()
+  const posts = await prisma.blogPost.findMany({
+    where: { published: true },
+    orderBy: { createdAt: 'desc' },
+  })
 
   return (
     <div className="section-padding">
@@ -41,12 +24,14 @@ export default function BlogPage() {
           {posts.map((post) => (
             <Link key={post.slug} href={`/blog/${post.slug}`} className="card group">
               <div className="relative h-48 overflow-hidden">
-                <Image
-                  src={post.image}
-                  alt={post.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+                {post.image ? (
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                ) : <div className="h-full bg-secondary" />}
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">
@@ -55,7 +40,7 @@ export default function BlogPage() {
                 <p className="text-gray-600 text-sm mb-3">{post.excerpt}</p>
                 <div className="flex justify-between text-sm text-gray-500">
                   <span>{post.author}</span>
-                  <span>{post.date}</span>
+                  <span>{formatBlogDate(post.createdAt)}</span>
                 </div>
               </div>
             </Link>

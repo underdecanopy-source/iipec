@@ -5,6 +5,9 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { AdminResourceManager } from './AdminResourceManager'
 import { AdminEventManager } from './AdminEventManager'
+import { AdminBlogManager } from './AdminBlogManager'
+import { AdminStatisticsManager } from './AdminStatisticsManager'
+import { AdminTestimonialManager } from './AdminTestimonialManager'
 import { AdminProgrammeManager } from './AdminProgrammeManager'
 
 export default async function AdminPage() {
@@ -89,6 +92,9 @@ export default async function AdminPage() {
         </div>
         <AdminResourceManager />
         <AdminEventManager />
+        <AdminBlogManager />
+        <AdminStatisticsManager />
+        <AdminTestimonialManager />
         <AdminProgrammeManager />
       </div>
     </div>

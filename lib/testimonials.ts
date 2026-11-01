@@ -1,3 +1,5 @@
+import { prisma } from '@/lib/prisma'
+
 export const testimonials = [
   {
     name: 'Pastor John Adebayo',
@@ -21,3 +23,45 @@ export const carouselTestimonials = testimonials.map(t => ({
   author: t.name,
   role: t.role,
 }));
+
+const seedKey = 'testimonials_seeded'
+
+export async function ensureDefaultTestimonials() {
+  if (await prisma.siteSetting.findUnique({ where: { key: seedKey }, select: { id: true } })) {
+    return
+  }
+
+  try {
+    await prisma.$transaction(async (transaction) => {
+      if (await transaction.siteSetting.findUnique({ where: { key: seedKey }, select: { id: true } })) {
+        return
+      }
+
+      if (await transaction.testimonial.count() === 0) {
+        await transaction.testimonial.createMany({
+          data: testimonials.map((testimonial) => ({
+            name: testimonial.name,
+            role: testimonial.role,
+            content: testimonial.content,
+            isActive: true,
+          })),
+        })
+      }
+      await transaction.siteSetting.create({ data: { key: seedKey, value: 'true' } })
+    })
+  } catch (error) {
+    if (await prisma.siteSetting.findUnique({ where: { key: seedKey }, select: { id: true } })) {
+      return
+    }
+    throw error
+  }
+}
+
+export async function getActiveTestimonials() {
+  await ensureDefaultTestimonials()
+  return prisma.testimonial.findMany({
+    where: { isActive: true },
+    orderBy: { createdAt: 'asc' },
+    select: { id: true, name: true, role: true, content: true },
+  })
+}

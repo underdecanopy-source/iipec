@@ -2,6 +2,8 @@ import ImpactStats from '@/components/ImpactStats'
 import Image from 'next/image'
 import type { Metadata } from 'next'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'About IIPEC Potter’s House Command | International Institute of Pastoral Education and Chaplaincy',
   description:

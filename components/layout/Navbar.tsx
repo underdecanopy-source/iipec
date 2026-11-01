@@ -28,7 +28,6 @@ export function Navbar() {
       <div className="container-custom mx-auto flex flex-wrap items-center justify-between gap-4 py-4">
         <Link href="/" className="flex items-center gap-2">
           <span className="text-2xl font-bold text-primary">IIPEC</span>
-          <span className="text-sm text-gray-500 hidden sm:inline">Chaplaincy</span>
         </Link>
 
         <div className="hidden lg:flex items-center gap-6">
