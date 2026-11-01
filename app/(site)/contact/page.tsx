@@ -159,7 +159,7 @@ export default function ContactPage() {
                 </span>
                 <div className="min-w-0">
                   <p className="font-medium">Phone</p>
-                  <p>+234 803 404 5856</p>
+                  <p>+2349137060556</p>
                 </div>
               </div>
             </div>

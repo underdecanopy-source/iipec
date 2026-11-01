@@ -20,7 +20,7 @@ export default function SupportPage() {
             <ul className="space-y-3 text-gray-600">
               <li>• The training and equipping of chaplains through our Diploma in Chaplaincy programme</li>
               <li>• The production of chaplaincy uniforms, badges, and ranking accessories</li>
-              <li>• Hospital outreach programmes, community visits, and pastoral care services</li>
+              <li>• All our outreach programmes to various locations, including hospitals, orphanages, correctional facilities, and rural communities through village crusades, among others.</li>
               <li>• The operational costs of running the Command Base in Ibadan and the administrative office in Lagos</li>
               <li>• The development and maintenance of our institutional infrastructure, including this website</li>
             </ul>
